@@ -1,0 +1,231 @@
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-12-25 22:06:18
+project --topLevelPackage org.sio.jnetmap
+jpa setup --provider HIBERNATE --database DERBY_EMBEDDED --databaseName dbJnetmap
+entity jpa --class ~.domain.Building --testAutomatically
+ field string --fieldName name --notNull --sizeMin 1 --sizeMax 30
+entity jpa --class ~.domain.Sonde --testAutomatically
+ field string --fieldName mac --notNull --sizeMin 2 --sizeMax 30
+ field string --fieldName num --notNull --sizeMin 2 --sizeMax 30
+entity jpa --class ~.domain.Vlan --testAutomatically
+ field number --type int --fieldName num --notNull
+ field string --fieldName name --notNull --sizeMin 2 --sizeMax 30
+entity jpa --class ~.domain.Dispatcher --testAutomatically
+ field string --fieldName name --notNull --sizeMin 2 --sizeMax 30
+entity jpa --class ~.domain.NetSwitch --testAutomatically
+ field string --fieldName ip --notNull --sizeMin 2 --sizeMax 30
+ field string --fieldName name --notNull --sizeMin 2 --sizeMax 30
+entity jpa --class ~.domain.Band --testAutomatically
+ field string --fieldName num --notNull --sizeMin 2 --sizeMax 30
+entity jpa --class ~.domain.NetModule --testAutomatically
+ field number --type int --fieldName num --notNull
+entity jpa --class ~.domain.Port --testAutomatically
+ field number --type int --fieldName num --notNull
+entity jpa --class ~.domain.Outlet --testAutomatically
+ field string --fieldName num --notNull --sizeMin 2 --sizeMax 30
+ field number --type int --fieldName port
+entity jpa --class ~.domain.Room --testAutomatically
+ field string --fieldName name --notNull --sizeMin 2 --sizeMax 30
+focus --class ~.domain.Room
+ field reference --fieldName building --type ~.domain.Building
+focus --class ~.domain.Outlet
+ field reference --fieldName room --type ~.domain.Room
+ field reference --fieldName band --type ~.domain.Band
+focus --class ~.domain.Port
+ field reference --fieldName vlan --type ~.domain.Vlan
+ field reference --fieldName netModule --type ~.domain.NetModule
+ field reference --fieldName outlet --type ~.domain.Outlet
+focus --class ~.domain.NetModule
+ field reference --fieldName netSwitch --type ~.domain.NetSwitch
+focus --class ~.domain.Band
+ field reference --fieldName dispatcher --type ~.domain.Dispatcher
+focus --class ~.domain.Dispatcher
+ field reference --fieldName building --type ~.domain.Building
+focus --class ~.domain.NetSwitch
+ field reference --fieldName dispatcher --type ~.domain.Dispatcher
+web mvc setup
+web mvc all --package ~.web
+// script --file /Users/Greg/Downloads/JnetmapDuZero/scriptPOJO-ROO.roo
+exit
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2012-12-25 22:07:00
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-12-25 22:11:06
+web mvc controller --class ~.web.AdminController --preferredMapping uc/admin
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-12-26 22:31:58
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2012-12-27 00:57:12
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-12-27 01:09:47
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2012-12-28 17:34:56
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-12-30 21:18:39
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-01-02 22:44:39
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-01-06 20:54:59
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-08 17:55:17
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-16 17:45:51
+hint
+security setup
+perform eclipse
+// [failed] entity jpa --class ~.domain.User --testAutomatically
+entity jpa --class ~.domain.User --testAutomatically --permitReservedWords
+field string --fieldName username
+field string --fieldName password
+finder add --finderName findUsersByEmailAndPasswordEquals --class ~.domain.User
+finder add --finderName findUsersByUsernameAndPasswordEquals --class ~.domain.User
+// [failed] field string --fieldName nameDa --notNull --sizeMax 50 --class ~.domain.Roles
+// [failed] field string --fieldName nameDa --notNull --sizeMax 50 --class ~.domain.Roles
+entity jpa --class ~.domain.Roles --testAutomatically
+field string --fieldName nameDa --notNull --sizeMax 50 --class ~.domain.Roles
+// [failed] entity jpa --class ~.domain.User --testAutomatically
+entity jpa --class ~.domain.Users --testAutomatically
+field string --fieldName username --notNull --sizeMin 3 --sizeMax 30
+field string --fieldName password --sizeMax 100
+field boolean --fieldName enabled --notNull true
+field set --fieldName roles --type ~.domain.Roles --cardinality MANY_TO_MANY --class ~.domain.Users
+controller scaffold --entity ~.domain.Users --class ~.web.UsersController
+controller scaffold --entity ~.domain.Roles --class ~.web.RolesController
+entity jpa --class ~.domain.Users --testAutomatically
+// [failed] entity jpa --class ~.domain.Roles --testAutomatically
+entity jpa --class ~.domain.Roles --testAutomatically
+// [failed] controller scaffold --entity ~.domain.Users --class ~.web.UsersController
+entity jpa --class ~.domain.Users --testAutomatically
+entity jpa --class ~.domain.Roles --testAutomatically
+// [failed] controller scaffold --entity ~.domain.Roles --class ~.web.RolesController
+// [failed] controller scaffold --entity ~.domain.Roles --class ~.web.RolesController
+// [failed] controller scaffold --entity ~.domain.Users --class ~.web.UsersController
+entity jpa --class ~.domain.Roles --testAutomatically
+field string --fieldName name --notNull --sizeMax 50 --class ~.domain.Roles
+entity jpa --class ~.domain.Users --testAutomatically
+field string --fieldName username --notNull --sizeMin 3 --sizeMax 30
+field string --fieldName password --sizeMax 100
+field boolean --fieldName enabled --notNull true
+field set --fieldName roles --type ~.domain.Roles --cardinality MANY_TO_MANY --class ~.domain.Users
+entity jpa --class ~.domain.Users --testAutomatically
+field string --fieldName username --notNull --sizeMin 3 --sizeMax 30
+field string --fieldName password --sizeMax 100
+field boolean --fieldName enabled --notNull true
+field set --fieldName roles --type ~.domain.Roles --cardinality MANY_TO_MANY --class ~.domain.Users
+entity jpa --class ~.domain.User --testAutomatically --permitReservedWords 
+field string --fieldName username --notNull --sizeMin 3 --sizeMax 30
+field string --fieldName password --sizeMax 100
+field boolean --fieldName enabled --notNull true
+// [failed] entity jpa --class ~.domain.Role --testAutomatically
+entity jpa --class ~.domain.Role --testAutomatically --permitReservedWords 
+field string --fieldName name --notNull --sizeMax 50 --class ~.domain.Role
+// [failed] field set --fieldName role --type ~.domain.Role --cardinality MANY_TO_MANY --class ~.domain.User
+field set --fieldName role --type ~.domain.Role --cardinality MANY_TO_MANY --class ~.domain.User --permitReservedWords 
+field set --fieldName roles --type ~.domain.Role --cardinality MANY_TO_MANY --class ~.domain.User
+// [failed] controller scaffold --entity ~.domain.Role --class ~.web.RoleController
+// [failed] web mvc scaffold --class ~.domain.Role
+// [failed] controller scaffold --entity ~.domain.Roles --class ~.web.RolesController
+entity jpa --class ~.domain.Roles --testAutomatically
+entity jpa --class ~.domain.Users --testAutomatically
+// [failed] controller scaffold --entity ~.domain.Roles --class ~.web.RolesController
+controller scaffold --entity ~.domain.Roles --class ~.web.RolesController
+controller scaffold --entity ~.domain.Users --class ~.web.UsersController
+controller scaffold --entity ~.domain.Users --class ~.web.UsersController
+controller scaffold --entity ~.domain.Users --class ~.web.UsersController
+web mvc scaffold --class ~.domain.Users
+web mvc scaffold --class ~.domain.Users
+web mvc scaffold --class ~.domain.Users
+web mvc scaffold --class ~.domain.UsersController
+controller scaffold --entity ~.domain.Users --class ~.web.UsersController
+web mvc scaffold --class ~.domain.Roles
+web mvc scaffold --class ~.domain.Users
+perform eclipse
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-02-17 00:19:35
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-17 00:21:11
+perform eclipse
+perform eclipse
+perform eclipse
+exit
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-02-17 00:35:49
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-17 00:39:36
+entity jpa --class ~.domain.Roles --testAutomatically
+web mvc scaffold --class ~.domain.Roles
+web mvc scaffold --class ~.domain.RolesController
+controller scaffold --entity ~.domain.Roles --class ~.web.RolesController
+entity jpa --class ~.domain.Roles --testAutomatically
+field string --fieldName nameDa --notNull --sizeMax 50 --class ~.domain.Roles
+exit
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-02-17 00:50:55
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-17 00:51:04
+entity jpa --class ~.domain.Roles
+// [failed] field string --fieldName nameDa --notNull --sizeMax 50 --class ~.domain.Roles
+// [failed] field string --fieldName nameDa --notNull --sizeMax 50 --class ~.domain.Roles
+entity jpa --class ~.domain.Roles
+field string --fieldName nameDa --notNull --sizeMax 50 --class ~.domain.Roles
+entity jpa --class ~.domain.Users --testAutomatically
+field string --fieldName usernameDa --notNull --sizeMin 3 --sizeMax 30
+field string --fieldName passwordDa --sizeMax 100
+field boolean --fieldName enabledDa --notNull true
+field set --fieldName roles --type ~.domain.Roles --cardinality MANY_TO_MANY --class ~.domain.Users
+web mvc all --package ~.web
+web mvc all --package ~.web
+web mvc all --package ~.web
+web mvc all --package ~.web
+web mvc update tags 
+web mvc all --package org.sio.jnetmap.web
+controller all --package ~.web
+web mvc all --package ~.web
+web mvc all --package org.sio.jnetmap.web
+entity jpa --class ~.domain.User --testAutomatically --permitReservedWords 
+// [failed] web mvc all --package ~.web
+web mvc all --package ~.web
+exit
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-02-17 01:12:43
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-17 01:12:51
+focus --class ~.domain.User
+field string --fieldName username --notNull --sizeMin 3 --sizeMax 30
+field string --fieldName password --sizeMax 100
+field boolean --fieldName enabled --notNull true
+
+entity jpa --class ~.domain.Role --testAutomatically --permitReservedWords 
+field string --fieldName name --notNull --sizeMax 50
+
+field set --fieldName roles --type ~.domain.Role --cardinality MANY_TO_MANY --class ~.domain.User
+controller all --package ~.web
+entity jpa --class ~.domain.User --testAutomatically --permitReservedWords --table t_user
+entity jpa --class ~.domain.User --testAutomatically --permitReservedWords --table t_user
+entity jpa --class ~.domain.User --testAutomatically --permitReservedWords --table t_user
+web mvc all --package ~.web
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-02-18 17:29:18
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-25 15:50:50
+hint
+hint
+hint
+hint
+// [failed] web mvc all --package ~.web
+focus --class ~.domain.VlanTaggued
+// [failed] web mvc all --package ~.web
+// [failed] controller all --package org.sio.jnetmap.domain
+// [failed] focus --class ~.domain.Vlan
+entity jpa --class VlanUntaggued
+entity jpa --class VlanTaggued
+// [failed] web mvc all --package org.sio.jnetmap.domain
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-02-25 21:09:36
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-25 21:25:16
+web mvc all --package org.sio.jnetmap.domain
+web mvc all --package org.sio.jnetmap.domain
+hint 
+persistence setup --database DERBY_EMBEDDED --provider HIBERNATE 
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-26 13:38:12
+web mvc controller --class org.sio.jnetmap.MobileController --preferredMapping /mobile
+web mvc controller --class org.sio.jnetmap.web.MobileController --preferredMapping /mobile
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-02-28 13:59:32
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-02-28 17:19:23
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-01 09:34:36
+exit
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-03-01 10:48:17
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-01 10:48:51
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-01 22:41:37
+exit
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-03-01 22:48:41
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-01 22:48:57
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-03-01 22:53:28
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-01 22:56:57
+web mvc all --package org.sio.jnetmap.web
+web mvc controller --class org.sio.jnetmap.SearchController --preferredMapping /search
+web mvc controller --class org.sio.jnetmap.web.SearchController --preferredMapping /search
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-03-03 22:17:49
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-03 22:20:03
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-03-07 20:48:40
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-11 16:34:36
+development mode --enabled true
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-03-13 18:42:22
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-13 18:43:44

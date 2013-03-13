@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_org_sio_jnetmap_domain_Probe" modelAttribute="probe" path="/sondes" versionField="Version" z="uDK96gK+YHS8VU9JbTsxBw/X29g=">
+        <field:input field="mac" id="c_org_sio_jnetmap_domain_Probe_mac" max="30" min="1" required="true" z="dBGzXyrPKbYxqU1kNUzJy7BE/AA="/>
+        <field:input field="num" id="c_org_sio_jnetmap_domain_Probe_num" max="30" min="1" required="true" z="Q4y5knmYv4h3ijQJiE8JwnNI27s="/>
+    </form:update>
+</div>

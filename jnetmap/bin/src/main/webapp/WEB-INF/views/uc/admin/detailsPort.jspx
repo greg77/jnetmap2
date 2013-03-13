@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<spring:message code="label_uc_admin_index" htmlEscape="false"
+		var="title" />
+	<h3>
+		<spring:message arguments="${app_name}" code="welcome_titlepane" />
+	</h3>
+	
+	<div id="content">
+	<h3>Details du port n°${port.num}</h3>
+	
+	<h4>Détails</h4>
+	<table>
+	<tr>
+		<td>Connexion au switch</td>
+		<td>Module ${port.netModule.num} du switch ${port.netModule.netSwitch.name}</td>
+	</tr>
+	<tr>
+		<td>Adresse ip</td>
+		<td>${port.netModule.netSwitch.ip}</td>
+	</tr>
+	<tr>
+		<td>Prise liée</td>
+		<td>${outlet.num} (salle ${outlet.room.name})</td>
+	</tr>
+	<tr>
+		<td>Vlan</td>
+		<td>Vlan!</td>
+	</tr>
+	
+	</table>
+	
+	</div>
+	
+</div>
+
+
+
+

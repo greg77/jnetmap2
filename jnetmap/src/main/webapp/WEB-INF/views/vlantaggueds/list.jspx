@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_sio_jnetmap_domain_VlanTaggued" items="${vlantaggueds}" z="b/aRJHh/i+kpD179s55LC6/iUog=">
+        <table:table data="${vlantaggueds}" id="l_org_sio_jnetmap_domain_VlanTaggued" path="/vlantaggueds" z="i/rdfbgfjdXrTrIRZqFWzmCNTSs=">
+            <table:column id="c_org_sio_jnetmap_domain_VlanTaggued_name" property="name" z="xZD7x18+EtqvgMFhVDjFktv0/9A="/>
+            <table:column id="c_org_sio_jnetmap_domain_VlanTaggued_num" property="num" z="lZMzzVZ6fhYDdvWaZAJrofuz1LU="/>
+        </table:table>
+    </page:list>
+</div>

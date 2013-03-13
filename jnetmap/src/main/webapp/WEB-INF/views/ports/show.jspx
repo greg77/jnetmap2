@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_sio_jnetmap_domain_Port" object="${port}" path="/ports" z="YpGm8zWfgD0OzGd/L8KfavTy0M0=">
+        <field:display field="num" id="s_org_sio_jnetmap_domain_Port_num" object="${port}" z="fLXuem7eDBHxbrkRNE0IL6vw4sE="/>
+        <field:display field="outlet" id="s_org_sio_jnetmap_domain_Port_outlet" object="${port}" z="p4YBcE/yxrmQ1kdQ5GGv5lZQcq8="/>
+        <field:display field="vlanUntagged" id="s_org_sio_jnetmap_domain_Port_vlanUntagged" object="${port}" z="/CaNeT2JgZiUwO2GOCVvf+S2t1k="/>
+        <field:display field="vlansTagged" id="s_org_sio_jnetmap_domain_Port_vlansTagged" object="${port}" z="q9jY8nwN71zMk7AeT8f1cE4owWY="/>
+        <field:display field="AModule" id="s_org_sio_jnetmap_domain_Port_aModule" object="${port}" z="AHXEtNQBpo7MhpGxGe5yQq0H/Vc="/>
+    </page:show>
+</div>

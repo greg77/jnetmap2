@@ -1,0 +1,17 @@
+----------------------------------------------------------------
+Tue Mar 12 22:52:39 CET 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-013d-6097-479e-00000e7ebf20 
+on database directory /Users/Greg/Documents/workspace-sts-3.1.0.RELEASE/jnetmap2/dbJnetmap  with class loader WebappClassLoader
+  context: /jnetmap
+  delegate: false
+  repositories:
+    /WEB-INF/classes/
+----------> Parent Classloader:
+ClassRealm[plugin>org.codehaus.mojo:tomcat-maven-plugin:1.1, parent: sun.misc.Launcher$AppClassLoader@129a41d2]
+ 
+Loaded from file:/Users/Greg/.m2/repository/org/apache/derby/derby/10.8.2.2/derby-10.8.2.2.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_07-b10
+user.dir=/Users/Greg/Documents/workspace-sts-3.1.0.RELEASE/jnetmap2
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

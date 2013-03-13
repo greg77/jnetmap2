@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="uc/admin/index">
+        <put-attribute name="body" value="/WEB-INF/views/uc/admin/index.jspx"/>
+    </definition>
+    <definition extends="default" name="uc/admin/detailsOutlet">
+    <put-attribute name="title" value="Details d'une prise" />
+        <put-attribute name="body" value="/WEB-INF/views/uc/admin/detailsOutlet.jspx"/>
+    </definition>
+    <definition extends="default" name="uc/admin/detailsRoom">
+    <put-attribute name="title" value="Details d'une salle" />
+        <put-attribute name="body" value="/WEB-INF/views/uc/admin/detailsRoom.jspx"/>
+    </definition>
+    <definition extends="default" name="uc/admin/detailsNetSwitch">
+    <put-attribute name="title" value="Details d'un switch" />
+        <put-attribute name="body" value="/WEB-INF/views/uc/admin/detailsNetSwitch.jspx"/>
+    </definition>
+    <definition extends="default" name="uc/admin/detailsPort">
+    <put-attribute name="title" value="Details d'un port" />
+        <put-attribute name="body" value="/WEB-INF/views/uc/admin/detailsPort.jspx"/>
+    </definition>
+    
+</tiles-definitions>

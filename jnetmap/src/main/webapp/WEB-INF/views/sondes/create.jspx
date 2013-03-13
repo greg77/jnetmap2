@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_org_sio_jnetmap_domain_Probe" modelAttribute="probe" path="/sondes" render="${empty dependencies}" z="TUpWZEf/MosFuBYOI3UvDqEXqk0=">
+        <field:input field="mac" id="c_org_sio_jnetmap_domain_Probe_mac" max="30" min="1" required="true" z="dBGzXyrPKbYxqU1kNUzJy7BE/AA="/>
+        <field:input field="num" id="c_org_sio_jnetmap_domain_Probe_num" max="30" min="1" required="true" z="Q4y5knmYv4h3ijQJiE8JwnNI27s="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_org_sio_jnetmap_domain_Probe" render="${not empty dependencies}" z="J0oPb5sQ0LsVdxIxfMfNrNuPIeo="/>
+</div>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_sio_jnetmap_domain_NetSwitch" items="${netswitches}" z="uH+pNiHNyF24yeME9tEjzzN88Ls=">
+        <table:table data="${netswitches}" id="l_org_sio_jnetmap_domain_NetSwitch" path="/netswitches" z="/n20inZ7kR0GJWSWxwsU0YRRvv0=">
+            <table:column id="c_org_sio_jnetmap_domain_NetSwitch_ip" property="ip" z="1u+nwcCvalZZKfKEu9s02xosgro="/>
+            <table:column id="c_org_sio_jnetmap_domain_NetSwitch_name" property="name" z="51xDJcnb79XSYjUkMd9whVg4XqE="/>
+            <table:column id="c_org_sio_jnetmap_domain_NetSwitch_dispatcher" property="dispatcher" z="UH90u7whvVL9xzDsVSdlcNc82gI="/>
+        </table:table>
+    </page:list>
+</div>
