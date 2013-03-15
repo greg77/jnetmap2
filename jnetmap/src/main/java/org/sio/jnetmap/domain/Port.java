@@ -44,6 +44,13 @@ public class Port {
 				Port.class).getResultList();
 	}
 	
+	public static List<Port> findPortsWithCustomQuery(String query){
+		return entityManager().createNativeQuery(
+				query,
+				Port.class).getResultList();
+		
+	}
+	
 	 public void setOutlet(Outlet outlet) {
 		 	 this.outlet = outlet;
 		 	 outlet.setPort(this);

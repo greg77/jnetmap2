@@ -7,16 +7,22 @@
   <spring:url value="/resources/dojo/dojo.js" var="dojo_url" />
   <spring:url value="/resources/dijit/themes/tundra/tundra.css" var="tundra_url" />
   <spring:url value="/resources/scripts/css/jquery/jquery-ui.css" var="jquerycss_url" />
+  <spring:url value="/resources/scripts/css/jquery/jquery.dataTables.css" var="jquerydatatable_url" />
+  <spring:url value="/resources/scripts/css/jquery/jquery.dataTables_themeroller.css" var="jquerydatatabletheme_url" />
   <spring:url value="/resources/spring/Spring.js" var="spring_url" />
   <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
   <spring:url value="/resources/images/favicon.ico" var="favicon" />
   <spring:url value="/resources/scripts/javascript/jquery/jquery-1.8.3.min.js" var="jquery_url" />
   <spring:url value="/resources/scripts/javascript/jquery/jquery-ui.js" var="jquery_ui_url" />
   <spring:url value="/resources/scripts/javascript/jquery/jquery.multi-open-accordion-1.5.3.js" var="jquery_accordion_url" />
-   <spring:url value="/resources/scripts/javascript/jhashtable/jshashtable.js" var="jshashtable_url" />
+  <spring:url value="/resources/scripts/javascript/jquery/jquery.dataTables.js" var="jquery_datatable_url" />
+  <spring:url value="/resources/scripts/javascript/jhashtable/jshashtable.js" var="jshashtable_url" />
   <spring:url value="/resources/scripts/javascript/jhashtable/jshashtable_src.js" var="jshashtablesrc_url" />
   <spring:url value="/resources/scripts/javascript/jquery/jquery.json-2.4.js" var="jqueryjson_url" />
  
+  <link rel="stylesheet" type="text/css" href="${jquerycss_url}" />
+  <link rel="stylesheet" type="text/css" href="${jquerydatatable_url}" />
+  <link rel="stylesheet" type="text/css" href="${jquerydatatabletheme_url}" />
   <link rel="stylesheet" type="text/css" href="${jquerycss_url}" />
   <link rel="stylesheet" type="text/css" href="${tundra_url}" />
   <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" />
@@ -36,7 +42,8 @@
   <script src="${jquery_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${jquery_accordion_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-  <script src="${jshashtable_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${jquery_datatable_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+   <script src="${jshashtable_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${jshashtablesrc_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${jqueryjson_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   

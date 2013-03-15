@@ -186,10 +186,21 @@
            	        url: 'getResults',
            	        data: data, 
            	     	contentType: "application/json; charset=utf-8",
-                 	
-           	        success:function(json) {    	
-           	        		console.log('json: '+json);	
-           	        		alert(json);
+                 	dataType : "json",
+           	        success:function(json) {
+           	        		var table = "";
+           	        		var thead = "";
+           	        		if (selectedTypeOfSearch == "Band"){
+           	        			thead += "<thead><tr><th>id</th><th>num</th></tr></thead>";
+           	        		}
+           	        		var json2 = '{ "sEcho":1, "iTotalRecords":3, "iTotalDisplayRecords":3, "bProcessing":true, "sPaginationType":"full_numbers", "aaData":[ {"DT_RowId":"row_1","0":"Jean Paul","1":"Durand","2":"j.durand@foo.net"}, {"DT_RowId":"row_2","0":"Pierre","1":"Mortimer","2":"p.mortimer@bar.net"}, {"DT_RowId":"row_3","0":"Clement","1":"Schmitt","2":"c.schmitt@foo.net"}, ], "aoColumns":[ {"sTitle":"Prenom"}, {"sTitle":"Nom"}, {"sTitle":"Email"} ] }';
+           	        		
+           	        		table += "<table id='datatable'><thead><thead></table>";
+           	        		$('#results').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>');
+           	        		$('#example').dataTable( {
+           	        		
+           	        		});
+           	        		alert(json2);
           	        	
             	        	
        				},

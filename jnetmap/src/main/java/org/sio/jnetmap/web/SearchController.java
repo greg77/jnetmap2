@@ -13,7 +13,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.derby.iapi.store.raw.Corruptable;
 import org.sio.jnetmap.domain.AdvancedSearch;
+import org.sio.jnetmap.domain.Band;
+import org.sio.jnetmap.domain.Building;
+import org.sio.jnetmap.domain.Dispatcher;
+import org.sio.jnetmap.domain.Modules;
+import org.sio.jnetmap.domain.Outlet;
+import org.sio.jnetmap.domain.Port;
 import org.sio.jnetmap.domain.Room;
+import org.sio.jnetmap.domain.Switches;
+import org.sio.jnetmap.domain.Vlan;
 import org.slf4j.impl.Log4jLoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -90,7 +98,7 @@ public class SearchController {
 		HashMap<String,String> attributeBand = new HashMap<String,String>();
 		attributeBand.put("id", "int");
 		attributeBand.put("name", "String");
-		attributeBand.put("building", "Building");
+		attributeBand.put("dispatcher", "Dispatcher");
 		listEntity.put("Band", attributeBand);
 		
 //		String[] attributeProbe = {"id", "mac","num"};
@@ -136,55 +144,55 @@ public class SearchController {
     	HashMap<String, ArrayList<String>> items = new HashMap<String, ArrayList<String>>();
     	
     	ArrayList<String> itemBuilding = new ArrayList<String>();
-    	itemBuilding.add("Building bui");
-    	itemBuilding.add("bui");
+    	itemBuilding.add("Building buil");
+    	itemBuilding.add("buil");
     	items.put("building",itemBuilding);
     	
     	ArrayList<String> itemBand = new ArrayList<String>();
-    	itemBand.add("Band ban");
-    	itemBand.add("ban");
+    	itemBand.add("Band band");
+    	itemBand.add("band");
     	items.put("band", itemBand);
     	
     	ArrayList<String> itemDispatcher = new ArrayList<String>();
-    	itemDispatcher.add("Dispatcher dis");
-    	itemDispatcher.add("dis");
+    	itemDispatcher.add("Dispatcher disp");
+    	itemDispatcher.add("disp");
     	items.put("dispatcher", itemDispatcher);
     	
     	ArrayList<String> itemModules = new ArrayList<String>();
-    	itemModules.add("Modules mod");
-    	itemModules.add("mod");
+    	itemModules.add("Modules modu");
+    	itemModules.add("modu");
     	items.put("A_Module", itemModules);
     	
     	ArrayList<String> itemOutlet = new ArrayList<String>();
-    	itemOutlet.add("Outlet out");
-    	itemOutlet.add("out");
+    	itemOutlet.add("Outlet outl");
+    	itemOutlet.add("outl");
     	items.put("outlet", itemOutlet);
     	
     	ArrayList<String> itemPort = new ArrayList<String>();
-    	itemPort.add("Port por");
-    	itemPort.add("por");
+    	itemPort.add("Port port");
+    	itemPort.add("port");
     	items.put("port", itemPort);
     	
     	ArrayList<String> itemRoom = new ArrayList<String>();
-    	itemRoom.add("Room roo");
-    	itemRoom.add("roo");
+    	itemRoom.add("Room room");
+    	itemRoom.add("room");
     	items.put("room", itemRoom);
     	
     	ArrayList<String> itemSwitches = new ArrayList<String>();
-    	itemSwitches.add("Switches swi");
-    	itemSwitches.add("swi");
+    	itemSwitches.add("Switches swit");
+    	itemSwitches.add("swit");
     	items.put("A_Switch", itemSwitches);
     	
     	ArrayList<String> itemVlan = new ArrayList<String>();
-    	itemVlan.add("Vlan vla");
-    	itemVlan.add("Vlan vla");
+    	itemVlan.add("Vlan vlan");
+    	itemVlan.add("vlan");
     	items.put("vlan", itemVlan);   	
     	
     	ArrayList<String> requests = new ArrayList<String>();
     	ArrayList<String> jointures = new ArrayList<String>();
     	ArrayList<String> froms = new ArrayList<String>();
     	String type = adv.getType();
-    	String minType = type.substring(0,3).toLowerCase();
+    	String minType = type.substring(0,4).toLowerCase();
     	froms.add(type+" "+minType);
     	
     	for (String requestValue : adv.getRequests()) {
@@ -362,10 +370,42 @@ public class SearchController {
 		}
     	query += req+" )";
     	
+    	switch (type) {
+			case "Band":
+				List<Band> bands = Band.findBandsWithCustomQuery(query);
+				return Band.toJsonArray(bands);
+			case "Building":
+				List<Building> buildings = Building.findBuildingsWithCustomQuery(query);
+				return Building.toJsonArray(buildings);
+			case "Dispatcher":
+				List<Dispatcher> dispatchers = Dispatcher.findDispatchersWithCustomQuery(query);
+				return Dispatcher.toJsonArray(dispatchers);
+			case "Modules":
+				List<Modules> modules = Modules.findModulesWithCustomQuery(query);
+				return Modules.toJsonArray(modules);
+			case "Outlet":
+				List<Outlet> outlets = Outlet.findOutletsWithCustomQuery(query);
+				return Outlet.toJsonArray(outlets);
+			case "Port":
+				List<Port> ports = Port.findPortsWithCustomQuery(query);
+				return Port.toJsonArray(ports);
+			case "Room":
+				List<Room> rooms = Room.findRoomsWithCustomQuery(query);
+				return Room.toJsonArray(rooms);
+			case "Switches":
+				List<Switches> switches = Switches.findSwitchesWithCustomQuery(query);
+				return Switches.toJsonArray(switches);
+			case "Vlan":
+				List<Vlan> vlans = Vlan.findVlansWithCustomQuery(query);
+				return Vlan.toJsonArray(vlans);
 
+		default:
+			return "erreur";			
+		}
+    	
     	
 		
-    	return query;
+    	
     
     }
     

@@ -53,5 +53,14 @@ public class Outlet {
 		
 	}
 	
+	public static List<Outlet> findOutletsWithCustomQuery(String query){
+		return entityManager().createNativeQuery(
+				query,
+				Outlet.class).getResultList();
+		
+	}
+	
+
+	
 
 }

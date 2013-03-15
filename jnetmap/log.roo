@@ -229,3 +229,5 @@ web mvc controller --class org.sio.jnetmap.web.SearchController --preferredMappi
 development mode --enabled true
 // Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-03-13 18:42:22
 // Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-13 18:43:44
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2013-03-13 20:52:52
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2013-03-13 20:53:07

@@ -1,6 +1,7 @@
 package org.sio.jnetmap.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.roo.addon.json.RooJson;
 
@@ -42,6 +43,8 @@ public class AdvancedSearch {
 	public void setOperators(ArrayList<String> operators) {
 		this.operators = operators;
 	}
+	
+	
 	
 	
 
