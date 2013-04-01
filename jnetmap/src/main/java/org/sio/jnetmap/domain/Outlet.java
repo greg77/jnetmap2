@@ -46,6 +46,13 @@ public class Outlet {
 				Outlet.class).getSingleResult();
 	}
 	
+	
+	public static Outlet findOutletWithNumDispatcherNumBandNumPort(String nameDispatcher, String numBand, String numPort){
+		return entityManager().createQuery(
+				"SELECT s FROM Outlet s WHERE s.port.num='" + numPort +"' AND s.band.num = '"+ numBand + "' AND s.band.dispatcher.name = '"+nameDispatcher+"'",
+				Outlet.class).getSingleResult();
+	}
+	
 	public static List<Outlet> findAllOutletsByModule(Long moduleId){
 		return entityManager().createQuery(
 				"SELECT s FROM Outlet s WHERE s.port= (SELECT p.id FROM Port p WHERE p.a_Module = )" + moduleId,

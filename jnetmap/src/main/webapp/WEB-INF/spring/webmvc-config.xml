@@ -30,6 +30,19 @@
     <mvc:view-controller path="/uncaughtException"/>
     <mvc:view-controller path="/resourceNotFound"/>
     <mvc:view-controller path="/dataAccessFailure"/>
+    
+    <!-- Configures Handler Interceptors --> 
+<mvc:interceptors>  
+
+ 
+ <!-- This bit of XML will apply certain URLs to certain interceptors -->
+ 
+ <mvc:interceptor>
+  <mvc:mapping path="/mobile/**"/>
+  <bean class="org.sio.jnetmap.MobileInterceptor" />
+ </mvc:interceptor>
+
+</mvc:interceptors>
 
     <!-- Resolves localized messages*.properties and application.properties files in the application to allow for internationalization. 
     The messages*.properties files translate Roo generated messages which are part of the admin interface, the 
@@ -73,5 +86,6 @@
       </list>
     </property>
   </bean>
+  
 <bean class="org.sio.jnetmap.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService"/>
 </beans>

@@ -102,7 +102,7 @@ public final class detailsOutlet_jspx extends org.apache.jasper.runtime.HttpJspB
       out.write('-');
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${outlet.band.num}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
       out.write('-');
-      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${outlet.num}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${outlet.port.num}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
       out.write("</td>");
       out.write("</tr>");
       out.write("</table>");

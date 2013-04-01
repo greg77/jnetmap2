@@ -49,4 +49,10 @@ public class User {
         password = DigestUtils.md5DigestAsHex(password.getBytes());
       }
     }
+    
+    public static User findUserByUsername(String username){
+		return entityManager().createQuery(
+				"SELECT u FROM User u WHERE u.username=\'" + username+"\'",
+				User.class).getSingleResult();
+	}
 }

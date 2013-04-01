@@ -30,7 +30,7 @@
 	</tr>
 	<tr>
 		<td>Identifiant</td>		
-		<td>${outlet.band.dispatcher.name}-${outlet.band.num}-${outlet.num}</td>
+		<td>${outlet.band.dispatcher.name}-${outlet.band.num}-${outlet.port.num}</td>
 	</tr>
 	
 	</table>

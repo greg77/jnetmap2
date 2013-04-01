@@ -5,250 +5,344 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
-	
-		<script type="text/javascript">
-    <![CDATA[
-             
-			var propertiesHash = new Hashtable();
-			var selectedTypeOfSearch;
-             $(function() {
-            	 getRadioButtons();
-                 
-             });
-             
-             function addProperties(value,cond,id){
-            	 $('#btn-OR-'+id).removeAttr("style");
-            	 $('#btn-AND-'+id).removeAttr("style");
-            	 $('#btn-'+cond+'-'+id).css("background-color","red");
-            	 if ($('#cond-'+id).val() == ""){            		
-                 	var random = randomString();            	
-                  	var selectHtml = '<tr class="line" id="tr-'+random+'"><td id="td-'+random+'"><select id="sl-'+random+'" onchange="getAddingProperties(this,\''+random+'\');"> <option value="#">------</option>';
-                  	var values = $.trim(selectedTypeOfSearch);            	  	
-                  	
-                  	$.each(propertiesHash.get(values), function(index, value) {            			
-                  			selectHtml += '<option value="'+index+'-'+value+'">'+index+'</option>';  	        		  	        		 	        		
-       	        	});
-                  	selectHtml += '</select></td><td class="oper" id="td-oper-'+random+'"><button id ="btn-OR-'+random+'" onclick="addProperties(\''+selectedTypeOfSearch+'\',\'OR\',\''+random+'\')">OU</button><button id ="btn-AND-'+random+'" onclick="addProperties(\''+selectedTypeOfSearch+'\',\'AND\',\''+random+'\')">ET</button><input id="cond-'+random+'" type="hidden" name="cond" value="" /></td></tr>';            	
-                  	$('#propertyCriteriaTable').append(selectHtml);
-            	 }
-            	 $('#cond-'+id).val(cond);
-            	
-             }
-            
-             
-             function getPropertiesWithRadioButton(values){        	 
-            	$('#propertyCriteriaTable').empty();
-            	var random = randomString();            	
-            	var selectHtml = '<tr class="line" id="tr-'+random+'"><td id="td-'+random+'"><select id="sl-'+random+'" onchange="getAddingProperties(this,\''+random+'\');"> <option value="#">------</option>';
-            	var values = $.trim(values);
-            	
-            	selectedTypeOfSearch = values;
-            	
-            	$.each(propertiesHash.get(values), function(index, value) {            			
-            			selectHtml += '<option value="'+index+'-'+value+'">'+index+'</option>';  	        		  	        		 	        		
- 	        	});
-            	selectHtml += '</select></td><td class="oper" id="td-oper-'+random+'"><button id ="btn-OR-'+random+'" onclick="addProperties(\''+selectedTypeOfSearch+'\',\'OR\',\''+random+'\')">OU</button><button id ="btn-AND-'+random+'" onclick="addProperties(\''+selectedTypeOfSearch+'\',\'AND\',\''+random+'\')">ET</button><input id="cond-'+random+'" type="hidden" name="cond" value="" /></td></tr>';            	
-            	$('#propertyCriteriaTable').append(selectHtml);             	 
-             }
-             
-             function getAddingProperties(choice,id){
-            	var until =document.getElementById('td-oper-'+id);
-            	var next = $(choice).nextUntil(until).remove();
-            	 var input = choice.options[choice.selectedIndex].value;
-            	 console.log(next);
-            	 var n=input.split("-");
-            	 var type = n[1];            	 
-            	 var operatingSelect = "<select id= 'slOperator-"+id+"' name ='operator' class='operator'><option value = '='>égal à</option><option value = '!='>different</option><option value = '>'>supérieur à</option><option value = '>='>supérieur ou égal à</option><option value = '<'>inférieur à</option><option value = '<='>inférieur ou égal à</option></select></td><td>";
-            	 var html = "";
-            	 if (type == "int" || type == "String"){
-            		 html += operatingSelect;
-            		 html += '<input type="text" name= "edit-'+id+'" id="edit-'+id+'" />';
-            	 }
-            	 else{
-            		 html += '<select id="sl-'+id+'" onchange="getAddingProperties(this,\''+id+'\');"> <option value="#">------</option>';
-                 	 $.each(propertiesHash.get(type), function(index, value) {            			
-             			html += '<option value="'+index+'-'+value+'">'+index+'</option>';  	        		  	        		 	        		
-  	        		});
-                 	html += '</select>';
-            	 }
-            	 $("#td-"+id).append(html);
-             }
-             
-             function getRadioButtons(){
-            	 $.ajax({
-          		   	type: "GET",
-          	        url: 'getProperty',
-          	        dataType: 'json',
-          	        success:function(json) {          	        	
-          	        	entityJson = json;
-          	        	$.each(json, function(index, value) {
-          	        		var detailsPropertiesHash = new Hashtable();
-          	        		$.each(value, function(index2, value2) {          	        		
-			        			detailsPropertiesHash.put(index2,value2);          	        			
-          	        		});
-          	        		propertiesHash.put(index,value);
-          	        		var radioButton = '<label for="'+index+'">'+
-          	        		'<input id="'+index+'" type="radio" name="entity" value="'+index+'" onchange="getPropertiesWithRadioButton(this.value)"/>'+
-          	        		index+'</label>';
-          	           		$('#entityListRadio').append(radioButton);
-         	        	});
-           	        	
-      				},
-          	        error: function(jqXHR, textStatus, errorThrown) {
-          	            alert("Issue fetching the JSON: "
-          	                + textStatus + " "
-          	                + errorThrown + " !");
-          	        }
-          	        });
-             }
-             
-             function randomString() {
-            		var chars = "abcdefghiklmnopqrstuvwxyz";
-            		var string_length = 8;
-            		var randomstring = '';
-            		for (var i=0; i<string_length; i++) {
-            			var rnum = Math.floor(Math.random() * chars.length);
-            			randomstring += chars.substring(rnum,rnum+1);
-            		}
-            		return ""+randomstring;
-            	}
-             
-             function launchRequest(){
-            	 var requestArray = new Array();  
-            	 var operatorArray = new Array();
-            	 $('#propertyCriteriaTable > tr').each(function() {
-            		 console.log($(this));
-            		 var td = $(this).find('td :first');            		            		 
-            		 var allInputsOfTr = td.find("select, input");
-            		 console.log(allInputsOfTr);
-                	 var requestBody = "";                	
-                	 var lastType ="";
-                	 $.each(allInputsOfTr, function() {
-                		 if($(this).is("select")) {                			 
-                    		 var value = $(this).val().split("-");
-                    		 var propertyValue= value[0];                		 
-                    		 if ($(this).attr("name") == 'operator'){
-                    			 requestBody = requestBody.substring(0, requestBody.length - 1);
-                    			 requestBody += " "+propertyValue+" ";
-                    		 }
-                    		 else{
-                    			 lastType = $.trim(value[1]);                    		 
-                    			 requestBody += propertyValue+".";
-                    		 } 
-//                     		 if (!$(this).val().match('^num') || !$(this).val().match('^id') || !$(this).val().match('^name') || !$(this).val().match('^ip')){
-//                     			 alert('select: '+$(this).val());
-//                     		 }
-                		 }
-                		 else if ($(this).is("input")) {               			 
-                				 if (lastType == "String"){
-                    				 requestBody += "'"+$(this).val()+"'";
-                    			 }
-                    			 else{
-                    				 requestBody += ""+$(this).val();
-                    			 }              			 
-    						}               		
-                		      	        			
-    	        		});                	 	
-                	 	requestArray.push(requestBody);
-                	 	var tdOperator = $(this).find('td.oper');                	 	
-                	 	console.log(tdOperator);
-                	 	var inputOperator = tdOperator.find("input").val();
-                	 	operatorArray.push(inputOperator);
-                	 	
-                	 	
-            		 });
-            	
-            	 
-            	 getResults(selectedTypeOfSearch,requestArray,operatorArray);
-             }
-             
-             function getResults(type,requestArray, operatorArray){
-            	 console.log(requestArray);
-            	 console.log(operatorArray);
-            	 console.log(selectedTypeOfSearch);
-            	 
-            	 var data = JSON.stringify({
-            			        type: type,
-            			        requests: requestArray,
-            			        operators : operatorArray
-            			    });
-            	 
-            	 console.log(data);
-//             	 var arraysToSend = new Hashtable();
-//             	 arraysToSend.put('type',type);
-//             	 arraysToSend.put('requests',requestArray);
-//             	 arraysToSend.put('operators',operatorArray);
-            	
-            	
-            	 
-            	 $.ajax({                    
-           		   	type: 'POST',
-           	        url: 'getResults',
-           	        data: data, 
-           	     	contentType: "application/json; charset=utf-8",
-                 	dataType : "json",
-           	        success:function(json) {
-           	        		var table = "";
-           	        		var thead = "";
-           	        		if (selectedTypeOfSearch == "Band"){
-           	        			thead += "<thead><tr><th>id</th><th>num</th></tr></thead>";
-           	        		}
-           	        		var json2 = '{ "sEcho":1, "iTotalRecords":3, "iTotalDisplayRecords":3, "bProcessing":true, "sPaginationType":"full_numbers", "aaData":[ {"DT_RowId":"row_1","0":"Jean Paul","1":"Durand","2":"j.durand@foo.net"}, {"DT_RowId":"row_2","0":"Pierre","1":"Mortimer","2":"p.mortimer@bar.net"}, {"DT_RowId":"row_3","0":"Clement","1":"Schmitt","2":"c.schmitt@foo.net"}, ], "aoColumns":[ {"sTitle":"Prenom"}, {"sTitle":"Nom"}, {"sTitle":"Email"} ] }';
-           	        		
-           	        		table += "<table id='datatable'><thead><thead></table>";
-           	        		$('#results').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>');
-           	        		$('#example').dataTable( {
-           	        		
-           	        		});
-           	        		alert(json2);
-          	        	
-            	        	
-       				},
-           	        error: function(jqXHR, textStatus, errorThrown) {
-           	            alert("Issue fetching the JSON: "
-           	                + textStatus + " "
-           	                + errorThrown + " !");
-           	        }
-           	        });
-            	 
-            	 
-             }
-             
-        ]]>
-    </script>
-	
-  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-  <jsp:output omit-xml-declaration="yes"/>
-  <spring:message code="label_search_index" htmlEscape="false" var="title"/>
-  <util:panel id="title" title="${title}">
-    <spring:message code="application_name" htmlEscape="false" var="app_name"/>
-    <h3>
-      <spring:message arguments="${app_name}" code="welcome_titlepane"/>
-    </h3> 
-    <div>
-    <h4>Recherche de: </h4>
-    <div id="entityListRadio">    
-        <c:forEach items="${listEntity}" var="entity">
 
-    </c:forEach>
-    
-    </div>
-    
-    </div> 
-    <div id="generalcriterias">
-    <h4>Criteres de recherche: </h4>
-   	<div>
-   	<table>
-    	<div id ="propertyCriteriaTable"></div>
-    	</table>
-     
-    	<button name="lauchRequest" onclick="launchRequest()" >Lancer la recherche</button>
-    </div>
-    </div>
-    <h4>Resultats</h4>
-    <div id= "results">
-    
-    
-    </div>
-  </util:panel>
+	<script type="text/javascript">
+		<![CDATA[
+
+		var propertiesHash = new Hashtable();
+		var selectedTypeOfSearch;
+		$(function() {
+			getRadioButtons();
+
+		});
+
+		function addProperties(value, cond, id) {
+			$('#btn-OR-' + id).removeAttr("style");
+			$('#btn-AND-' + id).removeAttr("style");
+			$('#btn-' + cond + '-' + id).css("background-color", "red");
+			if ($('#cond-' + id).val() == "") {
+				var random = randomString();
+				var selectHtml = '<tr class="line" id="tr-'+random+'"><td id="td-'+random+'"><select id="sl-'
+						+ random
+						+ '" onchange="getAddingProperties(this,\''
+						+ random + '\');"> <option value="#">------</option>';
+				var values = $.trim(selectedTypeOfSearch);
+
+				$.each(propertiesHash.get(values), function(index, value) {
+					selectHtml += '<option value="'+index+'-'+value+'">'
+							+ index + '</option>';
+				});
+				selectHtml += '</select></td><td class="oper" id="td-oper-'+random+'"><button id ="btn-OR-'
+						+ random
+						+ '" onclick="addProperties(\''
+						+ selectedTypeOfSearch
+						+ '\',\'OR\',\''
+						+ random
+						+ '\')">OU</button><button id ="btn-AND-'
+						+ random
+						+ '" onclick="addProperties(\''
+						+ selectedTypeOfSearch
+						+ '\',\'AND\',\''
+						+ random
+						+ '\')">ET</button><input id="cond-'+random+'" type="hidden" name="cond" value="" /></td></tr>';
+				$('#propertyCriteriaTable').append(selectHtml);
+			}
+			$('#cond-' + id).val(cond);
+
+		}
+
+		function getPropertiesWithRadioButton(values) {
+			$('#propertyCriteriaTable').empty();
+			var random = randomString();
+			var selectHtml = '<tr class="line" id="tr-'+random+'"><td id="td-'+random+'"><select id="sl-'
+					+ random
+					+ '" onchange="getAddingProperties(this,\''
+					+ random + '\');"> <option value="#">------</option>';
+			var values = $.trim(values);
+
+			selectedTypeOfSearch = values;
+
+			$.each(propertiesHash.get(values), function(index, value) {
+				selectHtml += '<option value="'+index+'-'+value+'">' + index
+						+ '</option>';
+			});
+			selectHtml += '</select></td><td class="oper" id="td-oper-'+random+'"><button id ="btn-OR-'
+					+ random
+					+ '" onclick="addProperties(\''
+					+ selectedTypeOfSearch
+					+ '\',\'OR\',\''
+					+ random
+					+ '\')">OU</button><button id ="btn-AND-'
+					+ random
+					+ '" onclick="addProperties(\''
+					+ selectedTypeOfSearch
+					+ '\',\'AND\',\''
+					+ random
+					+ '\')">ET</button><input id="cond-'+random+'" type="hidden" name="cond" value="" /></td></tr>';
+			$('#propertyCriteriaTable').append(selectHtml);
+		}
+
+		function getAddingProperties(choice, id) {
+			var until = document.getElementById('td-oper-' + id);
+			var next = $(choice).nextUntil(until).remove();
+			var input = choice.options[choice.selectedIndex].value;
+			console.log(next);
+			var n = input.split("-");
+			var type = n[1];
+			var operatingSelect = "<select id= 'slOperator-"+id+"' name ='operator' class='operator'><option value = '='>égal à</option><option value = '!='>different</option><option value = '>'>supérieur à</option><option value = '>='>supérieur ou égal à</option><option value = '<'>inférieur à</option><option value = '<='>inférieur ou égal à</option></select></td><td>";
+			var html = "";
+			if (type == "int" || type == "String") {
+				html += operatingSelect;
+				html += '<input type="text" name= "edit-'+id+'" id="edit-'+id+'" />';
+			} else {
+				html += '<select id="sl-' + id
+						+ '" onchange="getAddingProperties(this,\'' + id
+						+ '\');"> <option value="#">------</option>';
+				$.each(propertiesHash.get(type), function(index, value) {
+					html += '<option value="'+index+'-'+value+'">' + index
+							+ '</option>';
+				});
+				html += '</select>';
+			}
+			$("#td-" + id).append(html);
+		}
+
+		function getRadioButtons() {
+			$
+					.ajax({
+						type : "GET",
+						url : 'getProperty',
+						dataType : 'json',
+						success : function(json) {
+							entityJson = json;
+							$
+									.each(
+											json,
+											function(index, value) {
+												var detailsPropertiesHash = new Hashtable();
+												$.each(value, function(index2,
+														value2) {
+													detailsPropertiesHash.put(
+															index2, value2);
+												});
+												propertiesHash
+														.put(index, value);
+												var radioButton = '<label for="'+index+'">'
+														+ '<input id="'
+														+ index
+														+ '" type="radio" name="entity" value="'
+														+ index
+														+ '" onchange="getPropertiesWithRadioButton(this.value)"/>'
+														+ index + '</label>';
+												$('#entityListRadio').append(
+														radioButton);
+											});
+
+						},
+						error : function(jqXHR, textStatus, errorThrown) {
+							alert("Issue fetching the JSON: " + textStatus
+									+ " " + errorThrown + " !");
+						}
+					});
+		}
+
+		function randomString() {
+			var chars = "abcdefghiklmnopqrstuvwxyz";
+			var string_length = 8;
+			var randomstring = '';
+			for ( var i = 0; i < string_length; i++) {
+				var rnum = Math.floor(Math.random() * chars.length);
+				randomstring += chars.substring(rnum, rnum + 1);
+			}
+			return "" + randomstring;
+		}
+
+		function launchRequest() {
+			var requestArray = new Array();
+			var operatorArray = new Array();
+
+			$('#propertyCriteriaTable > tr').each(
+					function() {
+						console.log($(this));
+						var td = $(this).find('td :first');
+						var allInputsOfTr = td.find("select, input");
+						console.log(allInputsOfTr);
+						var requestBody = "";
+						var lastType = "";
+						$.each(allInputsOfTr, function() {
+							if ($(this).is("select")) {
+								var value = $(this).val().split("-");
+								var propertyValue = value[0];
+								if ($(this).attr("name") == 'operator') {
+									requestBody = requestBody.substring(0,
+											requestBody.length - 1);
+									requestBody += " " + propertyValue + " ";
+								} else {
+									lastType = $.trim(value[1]);
+									requestBody += propertyValue + ".";
+								}
+								//                     		 if (!$(this).val().match('^num') || !$(this).val().match('^id') || !$(this).val().match('^name') || !$(this).val().match('^ip')){
+								//                     			 alert('select: '+$(this).val());
+								//                     		 }
+							} else if ($(this).is("input")) {
+								if (lastType == "String") {
+									requestBody += "'" + $(this).val() + "'";
+								} else {
+									requestBody += "" + $(this).val();
+								}
+							}
+
+						});
+						requestArray.push(requestBody);
+						var tdOperator = $(this).find('td.oper');
+						console.log(tdOperator);
+						var inputOperator = tdOperator.find("input").val();
+						operatorArray.push(inputOperator);
+
+					});
+
+			getResults(selectedTypeOfSearch, requestArray, operatorArray);
+		}
+
+		function getResults(type, requestArray, operatorArray) {
+			console.log(requestArray);
+			console.log(operatorArray);
+			console.log(selectedTypeOfSearch);
+
+			var data = JSON.stringify({
+				type : type,
+				requests : requestArray,
+				operators : operatorArray
+			});
+
+			console.log(data);
+			//             	 var arraysToSend = new Hashtable();
+			//             	 arraysToSend.put('type',type);
+			//             	 arraysToSend.put('requests',requestArray);
+			//             	 arraysToSend.put('operators',operatorArray);
+
+// 			$('#dataEx').dataTable( {
+// 				"bProcessing": true,
+// 				"bServerSide": true,
+// 				"sAjaxSource": "./getResults",
+// 				"fnServerData": function ( sSource, aoData, fnCallback ) {
+// 					$.ajax( {
+// 						"dataType": 'json', 
+// 					"type": "POST", 
+// 					"url": sSource, 
+// 					"data": data, 
+// 					"success": fnCallback
+// 					} );
+// 				},
+// 		 		"aoColumns": [
+// 	                      { "mDataProp": "id" },
+// 	                      { "mDataProp": "name" }
+// 	                  ]
+			
+// 	} );
+
+			
+			alert('plop');
+			$.ajax({
+				type : 'POST',
+				url : 'getResults',
+				data : data,
+				contentType : "application/json; charset=utf-8",
+				dataType : "json",
+				success : function(json) {			
+					alert(json);
+					var dataArray = new Array();
+					var rowtoDisplay = "";
+					if (selectedTypeOfSearch == "Building" || selectedTypeOfSearch == "Dispatcher" || selectedTypeOfSearch == "Room" || selectedTypeOfSearch == "Switches" || selectedTypeOfSearch == "Band"){
+						rowtoDisplay = "name";
+					}
+					else if (selectedTypeOfSearch == "Band" || selectedTypeOfSearch == "Outlet" || selectedTypeOfSearch == "Port" || selectedTypeOfSearch == "Modules"){
+						rowToDisplay = "num";
+					}
+					
+					if(rowtoDisplay == 'name'){
+						var data = $.map(json.aaData, function(el, i) {	
+							var typeMin = selectedTypeOfSearch.toLowerCase();
+							dataArray.push(["<a href=\"../"+typeMin+"/"+el.id+"\">"+el.name+"</a>"]);
+						});
+					}
+					else if(rowtoDisplay == 'num'){
+						var data = $.map(json.aaData, function(el, i) {	
+							var typeMin = selectedTypeOfSearch.toLowerCase();
+							dataArray.push(["<a href=\"../"+typeMin+"/"+el.id+"\">"+el.num+"</a>"]);
+						});
+					}
+					
+					
+					
+					alert(dataArray);
+					var jsonStringify = JSON.stringify(json);
+					//alert(jsonStringify);
+					var oTable = $('#dataEx').dataTable({
+						"bDestroy": true,
+						"bProcessing" : true,
+						"aaData" : dataArray,
+						"aoColumns": [
+						  			
+						  			{ "sTitle": "name" } ]
+					});
+
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					alert("Issue fetching the JSON: " + textStatus + " "
+							+ errorThrown + " !");
+				}
+			});
+
+		}
+
+		]]>
+	</script>
+
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:message code="label_search_index" htmlEscape="false"
+		var="title" />
+	<util:panel id="title" title="${title}">
+		<spring:message code="application_name" htmlEscape="false"
+			var="app_name" />
+		<h3>
+			<spring:message arguments="${app_name}" code="welcome_titlepane" />
+		</h3>
+		<div>
+			<h4>Recherche de:</h4>
+			<div id="entityListRadio">
+				<c:forEach items="${listEntity}" var="entity">
+
+				</c:forEach>
+
+			</div>
+
+		</div>
+		<div id="generalcriterias">
+			<h4>Criteres de recherche:</h4>
+			<div>
+				<table>
+					<div id="propertyCriteriaTable"></div>
+				</table>
+
+				<button name="lauchRequest" onclick="launchRequest()">Lancer
+					la recherche</button>
+			</div>
+		</div>
+		<h4>Resultats</h4>
+		<div id="results">
+
+<table cellpadding="0" cellspacing="0" border="0" id="dataEx">
+	<thead>
+		<th>name</th>
+	</thead>
+	<tbody>
+		
+	</tbody>
+
+</table>
+
+		</div>
+	</util:panel>
 </div>
