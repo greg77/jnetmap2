@@ -1,9 +1,13 @@
 package org.sio.jnetmap.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.cache.entry.StructuredMapCacheEntry;
+import org.sio.jnetmap.domain.Dispatcher;
 import org.sio.jnetmap.domain.Outlet;
 import org.sio.jnetmap.domain.Port;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +29,8 @@ import com.google.gson.GsonBuilder;
 @Controller
 
 public class MobileController {
+	
+	
 	
 	
 
@@ -106,7 +112,7 @@ public class MobileController {
     
 
     
-    private String getUserName() {
+    private static String getUserName() {
     	 Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	 String username;
     	 if (principal instanceof User) {
@@ -121,4 +127,66 @@ public class MobileController {
     	Outlet outlet = Outlet.findOutletWithNumDispatcherNumBandNumPort(nameDispatcher, numBand, numPort);
     	return outlet;
     }
+    
+    @ResponseBody
+    @RequestMapping(value="dispatchers", method=RequestMethod.GET)
+    public String getDispatchers(Model model)
+    {
+    	ArrayList<Dispatcher> dispatchers = (ArrayList<Dispatcher>) Dispatcher.findAllDispatchers();
+    	Gson gson = new Gson();
+    	String json = gson.toJson(dispatchers);
+    	StringBuilder st = new StringBuilder();
+    	st.append(json);
+        return st.toString();
+    	
+    }
+    
+    
+    
+    @ResponseBody
+    @RequestMapping(value="outletsDisp/{idDisp}/{numBand}", method=RequestMethod.GET)
+    public String getOutletsDisp(Model model, @PathVariable String idDisp, @PathVariable String numBand)
+    {
+    	
+    	
+    	List<Outlet> listOutlets = null;
+    	try {
+    		listOutlets = Outlet.findOutletWithIdDispatcherNumBand(idDisp, numBand);
+		} catch (Exception e) {
+			StringBuilder st = new StringBuilder();
+	    	st.append("noOutletFound");
+	        return st.toString();
+		}
+    	
+    	Gson gson = new GsonBuilder()
+        .setExclusionStrategies(new ExclusionStrategy() {
+
+            public boolean shouldSkipClass(Class<?> f) {
+                return false;
+            }
+
+            /**
+              * Custom field exclusion goes here
+              */
+            public boolean shouldSkipField(FieldAttributes f) {
+            	System.out.println(""+f.getDeclaredClass()+ " : "+ f.getName());
+            	return (f.getDeclaredClass().equals(Outlet.class) && f.getName().equals("outlet"));
+            }
+
+         })
+        /**
+          * Use serializeNulls method if you want To serialize null values 
+          * By default, Gson does not serialize null values
+          */
+        
+        .create();
+    	String json = gson.toJson(listOutlets);
+    	StringBuilder st = new StringBuilder();
+    	st.append(json);
+        return st.toString();
+		
+        
+    }
+
+
 }

@@ -13,4 +13,8 @@
 <definition extends="default" name="ports/update">
         <put-attribute name="body" value="/WEB-INF/views/ports/update.jspx"/>
     </definition>
+    
+   <definition extends="default" name="ports/details">
+        <put-attribute name="body" value="/WEB-INF/views/ports/details.jspx"/>
+    </definition>
 </tiles-definitions>

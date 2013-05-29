@@ -22,10 +22,6 @@ privileged aspect Outlet_Roo_JavaBean {
         return this.port;
     }
     
-    public void Outlet.setPort(Port port) {
-        this.port = port;
-    }
-    
     public Room Outlet.getRoom() {
         return this.room;
     }

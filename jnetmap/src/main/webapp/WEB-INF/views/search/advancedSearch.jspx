@@ -249,25 +249,37 @@
 				data : data,
 				contentType : "application/json; charset=utf-8",
 				dataType : "json",
-				success : function(json) {			
+				success : function(json) {
+					
 					alert(json);
+					console.log(json);
 					var dataArray = new Array();
-					var rowtoDisplay = "";
+					var rowToDisplay = "";
 					if (selectedTypeOfSearch == "Building" || selectedTypeOfSearch == "Dispatcher" || selectedTypeOfSearch == "Room" || selectedTypeOfSearch == "Switches" || selectedTypeOfSearch == "Band"){
-						rowtoDisplay = "name";
+						alert('name');
+						rowToDisplay = "name";
 					}
 					else if (selectedTypeOfSearch == "Band" || selectedTypeOfSearch == "Outlet" || selectedTypeOfSearch == "Port" || selectedTypeOfSearch == "Modules"){
+						alert('num');
 						rowToDisplay = "num";
 					}
+					else{
+						alert('no');
+					}
+						
 					
-					if(rowtoDisplay == 'name'){
+					if(rowToDisplay == 'name'){
+						alert('je passe dans name');
 						var data = $.map(json.aaData, function(el, i) {	
+							alert(el.name);
 							var typeMin = selectedTypeOfSearch.toLowerCase();
 							dataArray.push(["<a href=\"../"+typeMin+"/"+el.id+"\">"+el.name+"</a>"]);
 						});
 					}
-					else if(rowtoDisplay == 'num'){
+					else if(rowToDisplay == 'num'){
+						alert('je passe dans num');
 						var data = $.map(json.aaData, function(el, i) {	
+							alert(el.num);
 							var typeMin = selectedTypeOfSearch.toLowerCase();
 							dataArray.push(["<a href=\"../"+typeMin+"/"+el.id+"\">"+el.num+"</a>"]);
 						});

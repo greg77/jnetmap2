@@ -309,25 +309,37 @@ public final class advancedSearch_jspx extends org.apache.jasper.runtime.HttpJsp
       out.write("\t\t\t\tdata : data,\n");
       out.write("\t\t\t\tcontentType : \"application/json; charset=utf-8\",\n");
       out.write("\t\t\t\tdataType : \"json\",\n");
-      out.write("\t\t\t\tsuccess : function(json) {\t\t\t\n");
+      out.write("\t\t\t\tsuccess : function(json) {\n");
+      out.write("\t\t\t\t\t\n");
       out.write("\t\t\t\t\talert(json);\n");
+      out.write("\t\t\t\t\tconsole.log(json);\n");
       out.write("\t\t\t\t\tvar dataArray = new Array();\n");
-      out.write("\t\t\t\t\tvar rowtoDisplay = \"\";\n");
+      out.write("\t\t\t\t\tvar rowToDisplay = \"\";\n");
       out.write("\t\t\t\t\tif (selectedTypeOfSearch == \"Building\" || selectedTypeOfSearch == \"Dispatcher\" || selectedTypeOfSearch == \"Room\" || selectedTypeOfSearch == \"Switches\" || selectedTypeOfSearch == \"Band\"){\n");
-      out.write("\t\t\t\t\t\trowtoDisplay = \"name\";\n");
+      out.write("\t\t\t\t\t\talert('name');\n");
+      out.write("\t\t\t\t\t\trowToDisplay = \"name\";\n");
       out.write("\t\t\t\t\t}\n");
       out.write("\t\t\t\t\telse if (selectedTypeOfSearch == \"Band\" || selectedTypeOfSearch == \"Outlet\" || selectedTypeOfSearch == \"Port\" || selectedTypeOfSearch == \"Modules\"){\n");
+      out.write("\t\t\t\t\t\talert('num');\n");
       out.write("\t\t\t\t\t\trowToDisplay = \"num\";\n");
       out.write("\t\t\t\t\t}\n");
+      out.write("\t\t\t\t\telse{\n");
+      out.write("\t\t\t\t\t\talert('no');\n");
+      out.write("\t\t\t\t\t}\n");
+      out.write("\t\t\t\t\t\t\n");
       out.write("\t\t\t\t\t\n");
-      out.write("\t\t\t\t\tif(rowtoDisplay == 'name'){\n");
+      out.write("\t\t\t\t\tif(rowToDisplay == 'name'){\n");
+      out.write("\t\t\t\t\t\talert('je passe dans name');\n");
       out.write("\t\t\t\t\t\tvar data = $.map(json.aaData, function(el, i) {\t\n");
+      out.write("\t\t\t\t\t\t\talert(el.name);\n");
       out.write("\t\t\t\t\t\t\tvar typeMin = selectedTypeOfSearch.toLowerCase();\n");
       out.write("\t\t\t\t\t\t\tdataArray.push([\"<a href=\\\"../\"+typeMin+\"/\"+el.id+\"\\\">\"+el.name+\"</a>\"]);\n");
       out.write("\t\t\t\t\t\t});\n");
       out.write("\t\t\t\t\t}\n");
-      out.write("\t\t\t\t\telse if(rowtoDisplay == 'num'){\n");
+      out.write("\t\t\t\t\telse if(rowToDisplay == 'num'){\n");
+      out.write("\t\t\t\t\t\talert('je passe dans num');\n");
       out.write("\t\t\t\t\t\tvar data = $.map(json.aaData, function(el, i) {\t\n");
+      out.write("\t\t\t\t\t\t\talert(el.num);\n");
       out.write("\t\t\t\t\t\t\tvar typeMin = selectedTypeOfSearch.toLowerCase();\n");
       out.write("\t\t\t\t\t\t\tdataArray.push([\"<a href=\\\"../\"+typeMin+\"/\"+el.id+\"\\\">\"+el.num+\"</a>\"]);\n");
       out.write("\t\t\t\t\t\t});\n");
@@ -383,11 +395,11 @@ public final class advancedSearch_jspx extends org.apache.jasper.runtime.HttpJsp
     org.springframework.web.servlet.tags.MessageTag _jspx_th_spring_005fmessage_005f0 = (org.springframework.web.servlet.tags.MessageTag) _005fjspx_005ftagPool_005fspring_005fmessage_0026_005fvar_005fhtmlEscape_005fcode_005fnobody.get(org.springframework.web.servlet.tags.MessageTag.class);
     _jspx_th_spring_005fmessage_005f0.setPageContext(_jspx_page_context);
     _jspx_th_spring_005fmessage_005f0.setParent(null);
-    // /WEB-INF/views/search/advancedSearch.jspx(305,17) name = var type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(317,17) name = var type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_spring_005fmessage_005f0.setVar("title");
-    // /WEB-INF/views/search/advancedSearch.jspx(305,17) name = htmlEscape type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(317,17) name = htmlEscape type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_spring_005fmessage_005f0.setHtmlEscape("false");
-    // /WEB-INF/views/search/advancedSearch.jspx(305,17) name = code type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(317,17) name = code type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_spring_005fmessage_005f0.setCode("label_search_index");
     int[] _jspx_push_body_count_spring_005fmessage_005f0 = new int[] { 0 };
     try {
@@ -414,9 +426,9 @@ public final class advancedSearch_jspx extends org.apache.jasper.runtime.HttpJsp
     org.apache.jsp.tag.web.util.panel_tagx _jspx_th_util_005fpanel_005f0 = new org.apache.jsp.tag.web.util.panel_tagx();
     org.apache.jasper.runtime.AnnotationHelper.postConstruct(_jsp_annotationprocessor, _jspx_th_util_005fpanel_005f0);
     _jspx_th_util_005fpanel_005f0.setJspContext(_jspx_page_context);
-    // /WEB-INF/views/search/advancedSearch.jspx(306,42) name = title type = java.lang.String reqTime = true required = true fragment = false deferredValue = false expectedTypeName = java.lang.String deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(318,42) name = title type = java.lang.String reqTime = true required = true fragment = false deferredValue = false expectedTypeName = java.lang.String deferredMethod = false methodSignature = null
     _jspx_th_util_005fpanel_005f0.setTitle((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${title}", java.lang.String.class, (PageContext)_jspx_page_context, null, false));
-    // /WEB-INF/views/search/advancedSearch.jspx(306,42) name = id type = java.lang.String reqTime = true required = true fragment = false deferredValue = false expectedTypeName = java.lang.String deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(318,42) name = id type = java.lang.String reqTime = true required = true fragment = false deferredValue = false expectedTypeName = java.lang.String deferredMethod = false methodSignature = null
     _jspx_th_util_005fpanel_005f0.setId("title");
     _jspx_th_util_005fpanel_005f0.setJspBody(new Helper( 0, _jspx_page_context, _jspx_th_util_005fpanel_005f0, null));
     _jspx_th_util_005fpanel_005f0.doTag();
@@ -432,11 +444,11 @@ public final class advancedSearch_jspx extends org.apache.jasper.runtime.HttpJsp
     org.springframework.web.servlet.tags.MessageTag _jspx_th_spring_005fmessage_005f1 = (org.springframework.web.servlet.tags.MessageTag) _005fjspx_005ftagPool_005fspring_005fmessage_0026_005fvar_005fhtmlEscape_005fcode_005fnobody.get(org.springframework.web.servlet.tags.MessageTag.class);
     _jspx_th_spring_005fmessage_005f1.setPageContext(_jspx_page_context);
     _jspx_th_spring_005fmessage_005f1.setParent(new javax.servlet.jsp.tagext.TagAdapter((javax.servlet.jsp.tagext.SimpleTag) _jspx_parent));
-    // /WEB-INF/views/search/advancedSearch.jspx(308,21) name = var type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(320,21) name = var type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_spring_005fmessage_005f1.setVar("app_name");
-    // /WEB-INF/views/search/advancedSearch.jspx(308,21) name = htmlEscape type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(320,21) name = htmlEscape type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_spring_005fmessage_005f1.setHtmlEscape("false");
-    // /WEB-INF/views/search/advancedSearch.jspx(308,21) name = code type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(320,21) name = code type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_spring_005fmessage_005f1.setCode("application_name");
     int[] _jspx_push_body_count_spring_005fmessage_005f1 = new int[] { 0 };
     try {
@@ -463,9 +475,9 @@ public final class advancedSearch_jspx extends org.apache.jasper.runtime.HttpJsp
     org.springframework.web.servlet.tags.MessageTag _jspx_th_spring_005fmessage_005f2 = (org.springframework.web.servlet.tags.MessageTag) _005fjspx_005ftagPool_005fspring_005fmessage_0026_005fcode_005farguments_005fnobody.get(org.springframework.web.servlet.tags.MessageTag.class);
     _jspx_th_spring_005fmessage_005f2.setPageContext(_jspx_page_context);
     _jspx_th_spring_005fmessage_005f2.setParent(new javax.servlet.jsp.tagext.TagAdapter((javax.servlet.jsp.tagext.SimpleTag) _jspx_parent));
-    // /WEB-INF/views/search/advancedSearch.jspx(310,71) name = code type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(322,71) name = code type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_spring_005fmessage_005f2.setCode("welcome_titlepane");
-    // /WEB-INF/views/search/advancedSearch.jspx(310,71) name = arguments type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(322,71) name = arguments type = null reqTime = true required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_spring_005fmessage_005f2.setArguments((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${app_name}", java.lang.Object.class, (PageContext)_jspx_page_context, null, false));
     int[] _jspx_push_body_count_spring_005fmessage_005f2 = new int[] { 0 };
     try {
@@ -492,10 +504,10 @@ public final class advancedSearch_jspx extends org.apache.jasper.runtime.HttpJsp
     org.apache.taglibs.standard.tag.rt.core.ForEachTag _jspx_th_c_005fforEach_005f0 = (org.apache.taglibs.standard.tag.rt.core.ForEachTag) _005fjspx_005ftagPool_005fc_005fforEach_0026_005fvar_005fitems_005fnobody.get(org.apache.taglibs.standard.tag.rt.core.ForEachTag.class);
     _jspx_th_c_005fforEach_005f0.setPageContext(_jspx_page_context);
     _jspx_th_c_005fforEach_005f0.setParent(new javax.servlet.jsp.tagext.TagAdapter((javax.servlet.jsp.tagext.SimpleTag) _jspx_parent));
-    // /WEB-INF/views/search/advancedSearch.jspx(315,51) name = var type = java.lang.String reqTime = false required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+    // /WEB-INF/views/search/advancedSearch.jspx(327,51) name = var type = java.lang.String reqTime = false required = false fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
     _jspx_th_c_005fforEach_005f0.setVar("entity");
-    // /WEB-INF/views/search/advancedSearch.jspx(315,51) name = items type = javax.el.ValueExpression reqTime = true required = false fragment = false deferredValue = true expectedTypeName = java.lang.Object deferredMethod = false methodSignature = null
-    _jspx_th_c_005fforEach_005f0.setItems(new org.apache.jasper.el.JspValueExpression("/WEB-INF/views/search/advancedSearch.jspx(315,51) '${listEntity}'",_el_expressionfactory.createValueExpression(_jspx_page_context.getELContext(),"${listEntity}",java.lang.Object.class)).getValue(_jspx_page_context.getELContext()));
+    // /WEB-INF/views/search/advancedSearch.jspx(327,51) name = items type = javax.el.ValueExpression reqTime = true required = false fragment = false deferredValue = true expectedTypeName = java.lang.Object deferredMethod = false methodSignature = null
+    _jspx_th_c_005fforEach_005f0.setItems(new org.apache.jasper.el.JspValueExpression("/WEB-INF/views/search/advancedSearch.jspx(327,51) '${listEntity}'",_el_expressionfactory.createValueExpression(_jspx_page_context.getELContext(),"${listEntity}",java.lang.Object.class)).getValue(_jspx_page_context.getELContext()));
     int[] _jspx_push_body_count_c_005fforEach_005f0 = new int[] { 0 };
     try {
       int _jspx_eval_c_005fforEach_005f0 = _jspx_th_c_005fforEach_005f0.doStartTag();

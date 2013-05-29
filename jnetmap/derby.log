@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sun Mar 31 23:53:56 CEST 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-013d-c271-473b-000007eef3b0 
+Sat May 25 23:44:13 CEST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-013e-dda6-24ea-00001116c428 
 on database directory /Users/Greg/git/sio/jnetmap2/jnetmap/dbJnetmap  with class loader WebappClassLoader
   context: /jnetmap
   delegate: false

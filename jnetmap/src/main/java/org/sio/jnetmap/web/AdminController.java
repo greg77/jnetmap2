@@ -1,8 +1,17 @@
 package org.sio.jnetmap.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +27,7 @@ import org.sio.jnetmap.domain.Switches;
 import org.sio.jnetmap.domain.Outlet;
 import org.sio.jnetmap.domain.Port;
 import org.sio.jnetmap.domain.Room;
+import org.sio.jnetmap.domain.Vlan;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +39,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 @RequestMapping("/uc/admin/**")
 @Controller
 public class AdminController {
@@ -38,104 +53,10 @@ public class AdminController {
 			HttpServletRequest request, HttpServletResponse response) {
 	}
 
-	@RequestMapping	
-	public String index(ModelMap modelMap,WebRequest wr) {
-		List<Building> buildings = Building.findAllBuildings();
-		modelMap.addAttribute("buildings", buildings);
-		modelMap.addAttribute("buildingsCount", buildings.size());
-		String strBuildId = wr.getParameter("building");
-		if (strBuildId != null) {
-		            // TODO traiter le cas idBat == 0
-		     Long buildId = Long.parseLong(strBuildId);
-		
-		List<Room> rooms = Room.findRoomsOfBuilding(buildId);
-		modelMap.addAttribute("rooms", rooms);
-		modelMap.addAttribute("roomsCount", rooms.size());
-		}
-		return "uc/admin/index";
-	}
 	
-	@RequestMapping(value = "/ajaxRooms", method = RequestMethod.GET)
-	  public @ResponseBody
-	List<Room> ajaxRooms(@RequestParam String buildingId) {
-		List<Room> rooms = new ArrayList<Room>();
-		
-		String strBuildId= buildingId;
-		if (strBuildId != null) {
-		            // TODO traiter le cas idBat == 0
-		Long buildId = Long.parseLong(strBuildId);
-		
-		rooms = Room.findRoomsOfBuilding(buildId);
-		
 	
-		}
-		return rooms;
-	}
-	
-	@RequestMapping(value = "/ajaxOutlets", method = RequestMethod.GET)
-	  public @ResponseBody
-	List<Outlet> ajaxOutlets(@RequestParam String roomId) {
-		List<Outlet> outlets = new ArrayList<Outlet>();
-		
-		String strRoomId= roomId;
-		if (strRoomId != null) {
-		            // TODO traiter le cas idRoom == 0
-		Long roomsId = Long.parseLong(strRoomId);		
-		outlets = Outlet.findOutletOfRooms(roomsId);
-		
-	
-		}
-		
-		return outlets;
-	}
-	
-	@RequestMapping(value = "detailsOutlet", method = RequestMethod.GET)
-	  public String detailsOutlets(@RequestParam("idOutlet") String idOutlet, ModelMap model) {
-		
-		String strOutletId= idOutlet;		
-		if (strOutletId != null) {
-		           
-			Long outletId = Long.parseLong(strOutletId);		
-			Outlet outlet = Outlet.findOutlet(outletId);			
-			//Port port = Port.findPort((long)outlet.getPort());			
-			model.addAttribute("outlet", outlet);
-			//model.addAttribute("port",port);
-		}
-		return "uc/admin/detailsOutlet";
-	}
-	
-	@RequestMapping(value = "detailsRoom", method = RequestMethod.GET)
-	  public String detailsRoom(@RequestParam("idRoom") String idRoom, ModelMap model) {
-		
-		String strRoomId= idRoom;		
-		if (strRoomId != null) {		           
-			Long roomId = Long.parseLong(strRoomId);		
-			Room room = Room.findRoom(roomId);
-			List<Outlet> outlets= Outlet.findOutletOfRooms(roomId);
-			HashMap<Switches, HashMap<Outlet, Port>> mapOutlet = new HashMap<Switches, HashMap<Outlet, Port>>();
-			for (Outlet outletItem : outlets) {
-				Port portItem = outletItem.getPort();
-				Switches netSwitch = Switches.findSwitches(portItem.getAModule().getASwitch().getId());
-				if (mapOutlet.containsKey(netSwitch)){
-					mapOutlet.get(netSwitch).put(outletItem, portItem);
-				}
-				else{
-					HashMap<Outlet, Port> newMapOutlet = new HashMap<Outlet, Port>();
-					newMapOutlet.put(outletItem, portItem);					
-					mapOutlet.put(netSwitch, newMapOutlet);
-				}				
-			}
-			
-			model.addAttribute("mapOutlet", mapOutlet);
-			model.addAttribute("sizeOutlets", outlets.size());
-			model.addAttribute("room", room);
-			
-		}
-		return "uc/admin/detailsRoom";
-	}
-	
-	@RequestMapping(value = "detailsSwitch", method = RequestMethod.GET)
-	  public String detailsNetSwitch(@RequestParam("idNetSwitch") String idNetSwitch, ModelMap model) {
+	@RequestMapping(value = "updateswitchconnection", method = RequestMethod.GET)
+	  public String details(@RequestParam("idNetSwitch") String idNetSwitch, ModelMap model) {
 		
 		String strOutletId= idNetSwitch;		
 		if (strOutletId != null) {
@@ -145,7 +66,7 @@ public class AdminController {
 			List<Port> ports = Port.findAllPortsBySwitch(netSwitchId);			
 			HashMap<Modules, ArrayList<Port>> mapPort = new HashMap<Modules, ArrayList<Port>>();
 			for (Port port : ports) {
-				System.out.println("port:"+port.getId()+ "module:"+port.getAModule().getNum());
+				//System.out.println("port:"+port.getId()+ "module:"+port.getAModule().getNum());
 				Modules netModule = port.getAModule();
 				if (mapPort.containsKey(netModule)){
 					mapPort.get(netModule).add(port);
@@ -158,47 +79,117 @@ public class AdminController {
 					
 				}
 			}
-			List<Modules> listNetModule = Modules.findNetModuleByNetSwitch(netSwitchId);
+			for (ArrayList<Port> arrayListPort : mapPort.values()) {
+				Collections.sort(arrayListPort, new PortComparable());
+			}
+			
+			Map mapPort2 = doSort(mapPort);	
 			
 			
-			model.addAttribute("mapPort",mapPort);
+			List<Modules> listModules = Modules.findNetModuleByNetSwitch(netSwitchId);
+			List<Outlet> listUnpluggedOutlets = Outlet.findUnplugOutlets();
+			List<Vlan> listVlansOfSwitch = Switches.findAllVlansBySwitch(netSwitchId);
+
+			model.addAttribute("listOutletUnplugged",listUnpluggedOutlets);
+			model.addAttribute("listOutletUnpluggedSize",listUnpluggedOutlets.size());
+			model.addAttribute("mapPort",mapPort2);
 			model.addAttribute("netSwitch",netSwitch);
-			model.addAttribute("listNetModule",listNetModule);
-			model.addAttribute("sizeNetModule", listNetModule.size());
+			model.addAttribute("listModule",listModules);
+			model.addAttribute("sizeModule", listModules.size());
+			model.addAttribute("listVlansUntagged",listVlansOfSwitch);
 		}
-		return "uc/admin/detailsSwitch";
+		return "uc/admin/updateswitchconnection";
 	}
 	
-	@RequestMapping(value = "detailsPort", method = RequestMethod.GET)
-	  public String detailsPort(@RequestParam("idPort") String idPort, ModelMap model) {
+	
+	@RequestMapping(value = "doUpdate/{idOutlet}/{idPort}", method = RequestMethod.GET)
+	  public @ResponseBody String doUpdate(@PathVariable String idOutlet, @PathVariable String idPort,ModelMap model) {
+		int portIntId = Integer.parseInt(idPort);
+		int outletIntId = Integer.parseInt(idOutlet);
+		Port port = null;
+		Outlet outlet = Outlet.findOutlet((long) outletIntId);
 		
-		String strPortId= idPort;		
-		if (strPortId != null) {		           
-			Long portId = Long.parseLong(strPortId);		
-			Port port = Port.findPort(portId);
-			model.addAttribute("port", port);		
+		if (portIntId == 0){
+			port = outlet.getPort();			
+			port.setOutlet(null);
+			outlet.setPort(null);
+			
+		}
+		else{
+			port = Port.findPort((long) portIntId);
+			port.setOutlet(outlet);
+			outlet.setPort(port);
 		}
 		
-		return "uc/admin/detailsPort";
-	}
-	
-	@RequestMapping(value = "detailsModule", method = RequestMethod.GET)
-	  public String detailsModule(@RequestParam("idModule") String idModule, ModelMap model) {
+		Outlet newOutlet = outlet.merge();
+		Port newPort = port.merge();
 		
-		String strModuleId= idModule;		
-		if (strModuleId != null) {		           
-			Long moduleId = Long.parseLong(strModuleId);		
-			Modules netModule = Modules.findModules(moduleId);			
-			ArrayList<Outlet> listOutlets = (ArrayList<Outlet>) Outlet.findAllOutletsByModule(moduleId);	
-			model.addAttribute("netModule", netModule);
-			model.addAttribute("listOutlets",listOutlets);
-		}
-		return "uc/admin/detailsModule";
+		
+		
+		Gson gson = new GsonBuilder()
+        .setExclusionStrategies(new ExclusionStrategy() {
+
+            public boolean shouldSkipClass(Class<?> f) {
+                return false;
+            }
+
+            /**
+              * Custom field exclusion goes here
+              */
+            public boolean shouldSkipField(FieldAttributes f) {
+            	System.out.println(""+f.getDeclaredClass()+ " : "+ f.getName());
+            	return (f.getDeclaredClass().equals(Outlet.class) && f.getName().equals("outlet"));
+            }
+
+         })
+        /**
+          * Use serializeNulls method if you want To serialize null values 
+          * By default, Gson does not serialize null values
+          */
+        
+        .create();
+		
+    	String json = gson.toJson(newOutlet);
+    	StringBuilder st = new StringBuilder();
+    	st.append(json);
+        return st.toString();
+
 	}
 	
-	@RequestMapping(value = "/test")
-	public String test(){
-		return "uc/admin/index";
-	}
+	public Map<Modules, ArrayList<Port>> doSort(Map<Modules, ArrayList<Port>> map) {
+		 Comparator<Modules> comparator = new KeyComparator<Modules>();
+		 Map<Modules, ArrayList<Port>> sortedMap = new TreeMap<Modules, ArrayList<Port>>(comparator);
+		 sortedMap.putAll(map);
+		 return sortedMap;
+		}
+	
+
 	
 }
+
+class PortComparable implements Comparator<Port>{
+	 
+    @Override
+    public int compare(Port p1, Port p2) {
+    	int p1Num = Integer.parseInt(p1.getNum());
+    	int p2Num = Integer.parseInt(p2.getNum());
+        return (p1Num<p2Num ? -1 : (p1Num==p2Num ? 0 : 1));
+    }
+}
+
+class KeyComparator<T> implements Comparator<Modules> {
+
+	
+
+	@Override
+	public int compare(Modules m1, Modules m2) {
+		
+		int p1Num = Integer.parseInt(String.valueOf(m1.getNum()));
+    	int p2Num = Integer.parseInt(String.valueOf(m2.getNum()));
+        return (p1Num<p2Num ? -1 : (p1Num==p2Num ? 0 : 1));
+		
+	}
+
+	}
+
+

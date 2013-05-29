@@ -13,4 +13,8 @@
 <definition extends="default" name="netswitches/update">
         <put-attribute name="body" value="/WEB-INF/views/netswitches/update.jspx"/>
     </definition>
+    
+<definition extends="default" name="netswitches/details">
+        <put-attribute name="body" value="/WEB-INF/views/netswitches/details.jspx"/>
+    </definition>
 </tiles-definitions>

@@ -31,21 +31,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 @RequestMapping("/search/**")
 @Controller
 public class SearchController {
 
-	@RequestMapping
+	@RequestMapping(value = "/advanced")
 	public String advancedSearch(ModelMap map) {
-
-		// map.addAttribute("listEntity",listEntity);
 		return "search/advancedSearch";
 	}
+	
+	
+	
+	@RequestMapping
+	public String index(ModelMap modelMap,WebRequest wr) {
+		List<Building> buildings = Building.findAllBuildings();
+		modelMap.addAttribute("buildings", buildings);
+		modelMap.addAttribute("buildingsCount", buildings.size());
+		String strBuildId = wr.getParameter("building");
+		if (strBuildId != null) {
+		   Long buildId = Long.parseLong(strBuildId);
+		
+		List<Room> rooms = Room.findRoomsOfBuilding(buildId);
+		modelMap.addAttribute("rooms", rooms);
+		modelMap.addAttribute("roomsCount", rooms.size());
+		}
+		return "search/index";
+	}
+	
+	// json actions
 
 	@RequestMapping(value = "/getProperty", method = RequestMethod.GET)
 	public @ResponseBody
@@ -389,7 +413,31 @@ public class SearchController {
 		} else if (type.equals("Outlet")) {
 			List<Outlet> outlets = Outlet.findOutletsWithCustomQuery(query);
 			iTotalDisplayRecords = outlets.size();
-			jsonResponse.add("aaData", gson.toJsonTree(outlets));
+			Gson gsonBuilder = new GsonBuilder()
+	        .setExclusionStrategies(new ExclusionStrategy() {
+
+	            public boolean shouldSkipClass(Class<?> f) {
+	                return false;
+	            }
+
+	            /**
+	              * Custom field exclusion goes here
+	              */
+	            public boolean shouldSkipField(FieldAttributes f) {
+	            	System.out.println(""+f.getDeclaredClass()+ " : "+ f.getName());
+	            	return (f.getDeclaredClass().equals(Outlet.class) && f.getName().equals("outlet"));
+	            }
+
+	         })
+	        /**
+	          * Use serializeNulls method if you want To serialize null values 
+	          * By default, Gson does not serialize null values
+	          */
+	        
+	        .create();
+	    	JsonElement jsonOutlets = gsonBuilder.toJsonTree(outlets, new TypeToken<List<Outlet>>(){}.getType());
+			
+			jsonResponse.add("aaData", jsonOutlets);
 		} else if (type.equals("Switches")) {
 			List<Switches> switches = Switches
 					.findSwitchesWithCustomQuery(query);
@@ -427,5 +475,61 @@ public class SearchController {
 		HashSet<String> h = new HashSet<String>(arlList);
 		arlList.clear();
 		arlList.addAll(h);
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "ajaxRooms", method = RequestMethod.GET)
+	  public @ResponseBody
+	List<Room> ajaxRooms(@RequestParam String buildingId) {
+		List<Room> rooms = new ArrayList<Room>();
+		
+		String strBuildId= buildingId;
+		if (strBuildId != null) {
+		            // TODO traiter le cas idBat == 0
+		Long buildId = Long.parseLong(strBuildId);
+		
+		rooms = Room.findRoomsOfBuilding(buildId);
+		
+	
+		}
+		return rooms;
+	}
+	
+	@RequestMapping(value = "ajaxOutlets", method = RequestMethod.GET)
+	  public @ResponseBody
+	List<Outlet> ajaxOutlets(@RequestParam String roomId) {
+		List<Outlet> outlets = new ArrayList<Outlet>();
+		
+		String strRoomId= roomId;
+		if (strRoomId != null) {
+		            // TODO traiter le cas idRoom == 0
+		Long roomsId = Long.parseLong(strRoomId);		
+		outlets = Outlet.findOutletOfRooms(roomsId);
+		
+	
+		}
+		
+		return outlets;
+	}
+	
+	
+	
+	//adding
+	
+	
+	
+
+	
+	
+	
+
+	
+
+	
+	@RequestMapping(value = "test")
+	public String test(){
+		return "uc/admin/test";
 	}
 }

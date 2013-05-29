@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -22,10 +25,11 @@ import org.springframework.ui.ModelMap;
 public class Outlet {
 
     @NotNull
-    @Size(min = 2, max = 30)
+    @Size(min = 0, max = 30)
     private String num;
-
-    @OneToOne
+    
+    @Nullable
+    @OneToOne(cascade = CascadeType.ALL)
     private Port port;
 
     @ManyToOne
@@ -33,6 +37,10 @@ public class Outlet {
 
     @ManyToOne
     private Band band;
+    
+    public String getCode(){
+    	return this.band.getDispatcher().getName()+"-"+this.band.getNum()+"-"+this.port.getNum();
+    }
 
 	public static List<Outlet> findOutletOfRooms(Long roomsId) {
 		return entityManager().createQuery(
@@ -55,10 +63,18 @@ public class Outlet {
 	
 	public static List<Outlet> findAllOutletsByModule(Long moduleId){
 		return entityManager().createQuery(
-				"SELECT s FROM Outlet s WHERE s.port= (SELECT p.id FROM Port p WHERE p.a_Module = )" + moduleId,
+				"SELECT s FROM Outlet s WHERE s.port.aModule ="+ moduleId,
 				Outlet.class).getResultList();
 		
 	}
+	
+	
+	public static List<Outlet> findOutletWithIdDispatcherNumBand(String idDispatcher, String numBand){
+		return entityManager().createQuery(
+				"SELECT s FROM Outlet s WHERE s.band.num = '"+ numBand + "' AND s.band.dispatcher.id = "+idDispatcher+"",
+				Outlet.class).getResultList();
+	}
+	
 	
 	public static List<Outlet> findOutletsWithCustomQuery(String query){
 		return entityManager().createNativeQuery(
@@ -66,6 +82,24 @@ public class Outlet {
 				Outlet.class).getResultList();
 		
 	}
+	
+
+
+	public void setPort(Port p) {
+		if (p == null)
+			this.port = null;
+		else
+			this.port = p;
+		
+	}
+
+	public static List<Outlet> findUnplugOutlets() {
+		return entityManager().createQuery(
+				"SELECT s FROM Outlet s WHERE s.port= null",
+				Outlet.class).getResultList();
+	}
+	
+	
 	
 
 	

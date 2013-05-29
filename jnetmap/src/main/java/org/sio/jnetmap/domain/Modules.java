@@ -23,7 +23,7 @@ public class Modules {
     
 	public static List<Modules> findNetModuleByNetSwitch(Long netSwitchId){
 		return entityManager().createQuery(
-				"SELECT s FROM NetModule s WHERE s.aSwitch.id=" + netSwitchId,
+				"SELECT s FROM Modules s WHERE s.aSwitch.id=" + netSwitchId,
 				Modules.class).getResultList();
 	}
 	

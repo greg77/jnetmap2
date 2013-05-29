@@ -42,10 +42,10 @@
 			<jdbc-user-service data-source-ref="dataSource"
 				users-by-username-query="SELECT U.username AS username, U.password as password, U.enabled as enabled FROM app.t_user U where U.username=?"
 				authorities-by-username-query="SELECT U.username as username, A.name as authority FROM app.t_user U left join app.t_user_roles UA on U.id=UA.t_user left join app.role A on UA.roles = A.id WHERE U.username=?" />
-			<user-service>
-				<user name="admin" password="21232f297a57a5a743894a0e4a801fc3"
-					authorities="ROLE_ADMIN" />
-			</user-service>
+<!-- 			<user-service> -->
+<!-- 				<user name="admin" password="21232f297a57a5a743894a0e4a801fc3" -->
+<!-- 					authorities="ROLE_ADMIN" /> -->
+<!-- 			</user-service> -->
 		</authentication-provider>
 	</authentication-manager>
 

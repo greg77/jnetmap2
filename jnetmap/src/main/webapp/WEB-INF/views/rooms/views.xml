@@ -13,4 +13,10 @@
 <definition extends="default" name="rooms/update">
         <put-attribute name="body" value="/WEB-INF/views/rooms/update.jspx"/>
     </definition>
+    
+<definition extends="default" name="rooms/details">
+    <put-attribute name="title" value="Details d'une salle" />
+    <put-attribute name="body" value="/WEB-INF/views/rooms/details.jspx"/>
+</definition>
 </tiles-definitions>
+

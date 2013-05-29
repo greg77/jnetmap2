@@ -18,6 +18,10 @@ public class Role {
     @NotNull
     @Size(max = 50)
     private String name;
+    
+    public void name() {
+		this.getId();
+	}
 
 
 

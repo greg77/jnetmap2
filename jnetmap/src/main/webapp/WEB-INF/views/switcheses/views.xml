@@ -13,4 +13,7 @@
 <definition extends="default" name="switcheses/update">
         <put-attribute name="body" value="/WEB-INF/views/switcheses/update.jspx"/>
     </definition>
+    <definition extends="default" name="switcheses/details">
+        <put-attribute name="body" value="/WEB-INF/views/switcheses/details.jspx"/>
+    </definition>
 </tiles-definitions>

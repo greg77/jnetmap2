@@ -19,6 +19,8 @@
   <spring:url value="/resources/scripts/javascript/jhashtable/jshashtable.js" var="jshashtable_url" />
   <spring:url value="/resources/scripts/javascript/jhashtable/jshashtable_src.js" var="jshashtablesrc_url" />
   <spring:url value="/resources/scripts/javascript/jquery/jquery.json-2.4.js" var="jqueryjson_url" />
+ <spring:url value="/resources/scripts/javascript/jquery/redips.js" var="redips_url" />
+  
  
   <link rel="stylesheet" type="text/css" href="${jquerycss_url}" />
   <link rel="stylesheet" type="text/css" href="${jquerydatatable_url}" />
@@ -46,6 +48,7 @@
    <script src="${jshashtable_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${jshashtablesrc_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${jqueryjson_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${redips_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   
   <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
 

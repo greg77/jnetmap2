@@ -192,7 +192,7 @@ public final class detailsRoom_jspx extends org.apache.jasper.runtime.HttpJspBas
       if (_jspx_eval_c_005fforEach_005f0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
         do {
           out.write("<tr>");
-          out.write("<td colspan=\"2\">");
+          out.write("<td colspan=\"3\">");
           out.write("<b>");
           out.write("Switch: ");
           out.write("<a href=\"" + (java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("./detailsNetSwitch?idNetSwitch=${outlets.key.id}", java.lang.String.class, (PageContext)_jspx_page_context, null, false) + "\">");

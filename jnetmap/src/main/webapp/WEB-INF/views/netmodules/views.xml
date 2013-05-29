@@ -13,4 +13,7 @@
 <definition extends="default" name="netmodules/update">
         <put-attribute name="body" value="/WEB-INF/views/netmodules/update.jspx"/>
     </definition>
+    <definition extends="default" name="netmodules/details">
+        <put-attribute name="body" value="/WEB-INF/views/netmodules/details.jspx"/>
+    </definition>
 </tiles-definitions>

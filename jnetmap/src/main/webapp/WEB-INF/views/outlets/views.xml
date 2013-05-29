@@ -13,4 +13,7 @@
 <definition extends="default" name="outlets/update">
         <put-attribute name="body" value="/WEB-INF/views/outlets/update.jspx"/>
     </definition>
+    <definition extends="default" name="outlets/details">
+        <put-attribute name="body" value="/WEB-INF/views/outlets/details.jspx"/>
+    </definition>
 </tiles-definitions>

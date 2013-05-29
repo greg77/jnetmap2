@@ -19,7 +19,7 @@ public class Band {
     @NotNull
     @Size(min = 2, max = 30)
     private String num;
-
+   
     @ManyToOne
     private Dispatcher dispatcher;
     

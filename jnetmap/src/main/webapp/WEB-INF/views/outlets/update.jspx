@@ -3,7 +3,7 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_sio_jnetmap_domain_Outlet" modelAttribute="outlet" path="/outlets" versionField="Version" z="FzaVQTAvY+ERUfXbs/k/+fTzE50=">
-        <field:input field="num" id="c_org_sio_jnetmap_domain_Outlet_num" max="30" min="2" required="true" z="SjZCEkyA1wJj7gFSOpZ5INikt2g="/>
+        <field:input field="num" id="c_org_sio_jnetmap_domain_Outlet_num" max="30" min="0" required="true" z="x4UoZTNoU5C/y4nmYzn7ViSnR9o="/>
         <field:select field="room" id="c_org_sio_jnetmap_domain_Outlet_room" itemValue="id" items="${rooms}" path="/rooms" z="sofftPfKXipZV/03EwjJpKt0haM="/>
         <field:select field="band" id="c_org_sio_jnetmap_domain_Outlet_band" itemValue="id" items="${bands}" path="/bands" z="eeKa4itkWLJqbi3IBEr8D/TWHCA="/>
         <field:select field="port" id="c_org_sio_jnetmap_domain_Outlet_port" itemValue="id" items="${ports}" path="/ports" z="NaAWaxN1PXhFHX83NmwV0J3k6DA="/>

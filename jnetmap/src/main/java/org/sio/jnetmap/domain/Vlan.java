@@ -24,7 +24,19 @@ public class Vlan {
 	  public static List<Vlan> findVlansWithCustomQuery(String query){
 			return entityManager().createNativeQuery(
 					query,
-					Vlan.class).getResultList();
+					Vlan.class).getResultList();		
+			
+		}
+	  
+	  public String getRgbVlanColor(){	
+		 						      
+				String quarter = "";
+				long firstRgb= (17*this.getId()+ 37)%256;
+				long secondRgb= (37*this.getId()*2 + 73)%256;
+				long thirdRgb= (73*this.getId()*3 + 17)%256;
+				quarter += "rgb("+firstRgb+","+secondRgb+","+thirdRgb+")";
+		  
+			return quarter;
 			
 		}
 }
