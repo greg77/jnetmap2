@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.input.SwappedDataInputStream;
 import org.apache.commons.logging.Log;
 import org.json.JSONArray;
+
 import org.sio.jnetmap.domain.Band;
 import org.sio.jnetmap.domain.Building;
 import org.sio.jnetmap.domain.Modules;
@@ -30,8 +31,11 @@ import org.sio.jnetmap.domain.Room;
 import org.sio.jnetmap.domain.Vlan;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +56,17 @@ public class AdminController {
 	public void post(@PathVariable Long id, ModelMap modelMap,
 			HttpServletRequest request, HttpServletResponse response) {
 	}
+	
+	
+	@RequestMapping(value = "index", method = RequestMethod.GET)
+	public void index(ModelMap model) {
+		
+	}
+	
+	@RequestMapping(value = "updateswitchconnectionlist", method = RequestMethod.GET)
+	  public void updateList( ModelMap model) {
+		model.addAttribute("switches", Switches.findAllSwitcheses());
+	}
 
 	
 	
@@ -70,6 +85,7 @@ public class AdminController {
 				Modules netModule = port.getAModule();
 				if (mapPort.containsKey(netModule)){
 					mapPort.get(netModule).add(port);
+				
 					
 				}
 				else{
@@ -162,6 +178,43 @@ public class AdminController {
 		 sortedMap.putAll(map);
 		 return sortedMap;
 		}
+	
+	@RequestMapping(value = "updateOutlets", method = RequestMethod.PUT)
+	public @ResponseBody
+	String updateOutlets(@RequestBody String json, HttpServletResponse response){
+		String[] jsonTable = json.split(",");
+		int i =0;
+		int jsontableLength = jsonTable.length;
+		for (String anUpdate : jsonTable) {
+				if (i < jsontableLength -1){
+				String[] anUpdateTab = anUpdate.split(":");
+				long idOutlet = (long) Integer.parseInt(anUpdateTab[0].trim());
+				long idPort = (long) Integer.parseInt(anUpdateTab[1].trim());
+				Outlet currentOutlet = Outlet.findOutlet(idOutlet);
+				
+				
+				if (idPort == 0){
+					currentOutlet.getPort().setOutlet(null);
+					currentOutlet.setPort(null);	
+				}
+				else{
+					
+					Port currentPort = Port.findPort(idPort);					
+					currentPort.setOutlet(currentOutlet);
+					currentOutlet.setPort(currentPort);
+					currentPort = currentPort.merge();
+				}
+				
+				
+				currentOutlet = currentOutlet.merge();
+				
+				i++;
+				}
+			
+		}
+		
+		return "ok";		
+	}
 	
 
 	

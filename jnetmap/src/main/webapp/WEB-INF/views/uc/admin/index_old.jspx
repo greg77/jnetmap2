@@ -67,7 +67,7 @@
     	        });
         }
 function getOutlets(idRoom){
-	   var $outletPanel = $('#outletTitle');
+	var $outletPanel = $('#outletTitle');
 	   var $outletContent = $('#outletContent');
 	   var $outletTextRoomUnchoose= $('#outletTextRoomUnchoose');
 	   var $outletTextNoOutlet = $('#outletTextNoOutlet');
@@ -78,7 +78,7 @@ function getOutlets(idRoom){
     	        data: ({roomId : idRoom}),
     	        dataType: 'json',
     	        success:function(json) {
-    	        	
+    	        	alert(json);
      	        	$outletTextRoomUnchoose.attr('hidden','true');
     	        	if (json.length == 0){
     	        		$outletTextNoOutlet.removeAttr('hidden');
@@ -92,7 +92,7 @@ function getOutlets(idRoom){
     	        	var nbOutlets = 0;
     	        	$.each(json, function(index, value) {
     	        		
-    	        		$outletTable.append('<tr><td>'+value.num+'</td><td><a href="../outlets/details?idOutlet='+ value.id +'">details</a></td></tr>');
+    	        		$outletTable.append('<tr><td>'+value.num+'</td><td><a href="./detailsOutlet?idOutlet='+ value.id +'">details</a></td></tr>');
     	        		nbOutlets++;
     	        	});
     	        	
@@ -120,7 +120,7 @@ function getOutlets(idRoom){
 	<spring:message code="label_uc_admin_index" htmlEscape="false"
 		var="title" />
 	<h3>
-		<spring:message arguments="Jnetmap" code="welcome_titlepane" />
+		<spring:message arguments="${app_name}" code="welcome_titlepane" />
 	</h3>
 	<form action="index" method="post" id="formadmin">
 	<div id="multiOpenAccordion">
@@ -142,7 +142,7 @@ function getOutlets(idRoom){
 				<c:forEach items="${rooms}" var="room">
 					<option value="${room.id}">${room.name}</option>
 				</c:forEach>
-		</select>
+			</select>
 			<div id="roomTextBuildingUnchoose" >Veuillez selectionner un batiment</div>
         	<div id="roomTextNoRoom" hidden="true">Le batiment selectionné n'a pas de salles</div>
     </div>

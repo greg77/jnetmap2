@@ -39,6 +39,10 @@ public class Switches {
 				"SELECT DISTINCT v.* FROM Vlan v INNER JOIN Port p on p.vlan_Untagged = v.id, Modules m, Switches s WHERE p.a_Module = m.id AND m.a_Switch = s.id AND s.id =" + switchId,
 				Vlan.class).getResultList();
 	}
+	
+    public static List<Switches> findAllSwitchesesOrderByDispatcher() {
+        return entityManager().createQuery("SELECT o FROM Switches o ORDER by o.dispatcher.name ASC", Switches.class).getResultList();
+    }
     
 
 }

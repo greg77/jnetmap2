@@ -4,7 +4,11 @@
     <definition extends="default" name="uc/admin/index">
         <put-attribute name="body" value="/WEB-INF/views/uc/admin/index.jspx"/>
     </definition>
+    
     <definition extends="default" name="uc/admin/updateswitchconnection">
         <put-attribute name="body" value="/WEB-INF/views/uc/admin/updateswitchconnection.jspx"/>
+    </definition>
+     <definition extends="default" name="uc/admin/updateswitchconnectionlist">
+        <put-attribute name="body" value="/WEB-INF/views/uc/admin/updateswitchconnectionlist.jspx"/>
     </definition>
 </tiles-definitions>

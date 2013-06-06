@@ -29,7 +29,9 @@ public class Vlan {
 		}
 	  
 	  public String getRgbVlanColor(){	
-		 						      
+		 		if (this.num == 0){
+		 			return "rgb(153,51,153)";
+		 		}
 				String quarter = "";
 				long firstRgb= (17*this.getId()+ 37)%256;
 				long secondRgb= (37*this.getId()*2 + 73)%256;

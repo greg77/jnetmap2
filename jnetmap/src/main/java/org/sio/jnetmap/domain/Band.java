@@ -29,4 +29,10 @@ public class Band {
 				Band.class).getResultList();
 		
 	}
+	
+	public static List<Band> findBandOfDispatcher(Long dispatcherId) {
+		return entityManager().createQuery(
+				"SELECT b FROM Band b WHERE b.dispatcher.id=" + dispatcherId,
+				Band.class).getResultList();
+	}
 }
