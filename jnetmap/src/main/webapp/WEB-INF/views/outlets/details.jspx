@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<spring:message code="label_uc_admin_index" htmlEscape="false"
+		var="title" />
+	<h3>
+		<spring:message arguments="${app_name}" code="welcome_titlepane" />
+	</h3>
+
+	<script type="text/javascript">
+    <![CDATA[
+             
+             var switchesCurrent;
+		
+             function getBands(idDispatcher,selected){  
+          	   	   
+            	 var $bandSelect = $('#bandSelect');
+            	   var $bandTextNoBand = $('#bandTextNoBand');
+          	   $.ajax({
+          		   	type: "GET",
+          	        url: 'ajaxBands',
+          	        data: ({dispatcherId : idDispatcher}),
+          	        dataType: 'json',
+          	        success:function(json) {    	        	
+          	        	$bandSelect.empty();
+          	        	if (json.length == 0){
+        	        		$bandTextNoBand.removeAttr('hidden');
+        	        		$bandSelect.attr('hidden','true');
+        	        	}
+        	        	else{
+        	        		$bandSelect.removeAttr('hidden');
+        	        		$bandTextNoBand.attr('hidden','true');        	        		
+          	        		$.each(json, function(index, value) {
+          	        			$bandSelect.append('<option value="'+ value.id +'">'+ value.num +'</option>');
+          	        		});
+          	        		if (selected != "false"){
+          	        			console.log(selected);
+          	        			
+          	        			$bandSelect.val(selected);
+          	        			$( "#dialog-form-band" ).dialog( "open" );
+          	        		}
+        	        	}
+      				},
+          	        error: function(jqXHR, textStatus, errorThrown) {
+          	            alert("Issue fetching the JSON: "
+          	                + textStatus + " "
+          	                + errorThrown + " !");
+          	        }
+          	        });
+              }
+             
+             
+             function chooseBand(idOutlet,idDispatcher,idBand){
+            	 $('#outletInputId').val(idOutlet);
+            	 var $dispatcherSelect = $('#dispatcherSelect');            	 
+            	 $dispatcherSelect.val(idDispatcher);
+            	 getBands(idDispatcher,idBand);
+            	 
+            	 
+             }
+             
+             function chooseSwitch(idOutlet){    
+            	 var idSwitch = $('#currentSwitch').val();
+            	 $('#switchesSelect').val(idSwitch);
+            	 $( "#dialog-form-switches" ).dialog( "open" );
+            	 
+             }
+             
+             
+             
+             $(function() {
+            	 $( "#dialog-form-band" ).dialog({
+            	      autoOpen: false,
+            	      height: 300,
+            	      width: 350,
+            	      modal: true,
+            	      buttons: {
+            	        "Enregistrer les modifications": function() {
+            	        	var outlet = $('#outletInputId').val();            	      
+            	        	var dispatcher = $('#dispatcherSelect').val(); 
+            	        	var band = $('#bandSelect').val();            	          	
+            	          	$.ajax({
+                      		   	type: "PUT",
+                      	        url: 'updateOutlet/'+outlet+"/"+band,
+                      	        success:function(json) {                      	        	
+                      	        	if (json == 'ok'){
+                      	        		alert('Vos modifications ont été enregistrées');
+                      	        		window.location.reload();
+                      	        	}
+                  				},
+                      	        error: function(jqXHR, textStatus, errorThrown) {
+                      	            alert("Issue fetching the JSON: "
+                      	                + textStatus + " "
+                      	                + errorThrown + " !");
+                      	        }
+                      	        });
+            	          
+            	        },
+            	        Cancel: function() {
+            	          $( this ).dialog( "close" );
+            	        }
+            	      },
+            	      close: function() {
+            	        allFields.val( "" ).removeClass( "ui-state-error" );
+            	      }
+            	    });
+            	 
+            	 $( "#dialog-form-switches" ).dialog({
+             	      autoOpen: false,
+             	      height: 300,
+             	      width: 350,
+             	      modal: true,
+             	      buttons: {
+             	        "Selectionner": function() {
+             	        	var outlet = $('#outletInputIdSwitch').val(); 
+             	        	var currentSwitches = $('#currentSwitch').val();
+             	        	var switches = $('#switchesSelect').val(); 
+             	        	
+             	        	if (currentSwitches == switches){
+             	        		window.location = "../outlets/updateoutletconnectionsameswitch/"+outlet;
+             	        	}
+             	        	else{
+             	        		window.location = "../outlets/updateoutletconnection/"+outlet+"/"+switches;
+             	        	}
+             	        	
+             	          
+             	        },
+             	        Cancel: function() {
+             	          $( this ).dialog( "close" );
+             	        }
+             	      },
+             	      close: function() {
+             	        allFields.val( "" ).removeClass( "ui-state-error" );
+             	      }
+             	    });
+            	 
+            	 
+             
+             });
+             
+             
+     ]]>
+    </script>
+
+	<div id="content">
+		<sec:authentication property="principal.username" />
+
+		<h3>Details de la prise n°${outlet.num} de la salle
+			${outlet.room.name}</h3>
+
+		<h4>Fiche d'identité</h4>
+		<table>
+			<tr>
+				<td>Numero de la prise</td>
+				<td>${outlet.num}</td>
+			</tr>
+			<tr>
+				<td>Salle</td>
+				<td><a href="../rooms/details?idRoom=${outlet.room.id}">${outlet.room.name}</a></td>
+			</tr>
+			<tr>
+				<td>Identifiant</td>
+				<td>${outlet.code}</td>
+			</tr>
+
+		</table>
+
+		<h4>Connexion</h4>
+		<c:if test="${empty outlet.port}">
+			La prise n'est pas connectée à un port.
+			
+					 <input
+					type="hidden" id="currentSwitch" name="currentSwitch"
+					value="0" />
+			
+		</c:if>
+		<c:if test="${not empty outlet.port}">
+		 <input
+					type="hidden" id="currentSwitch" name="currentSwitch"
+					value="${outlet.port.AModule.ASwitch.id}" />
+			<table>
+				<tr>
+					<td>Port</td>
+					<td><a href="../ports/details?idPort=${outlet.port.id}">${outlet.port.num}</a></td>
+				</tr>
+				<tr>
+					<td>Module</td>
+					<td><a href="../moduleses/details?idModule=${outlet.port.AModule.id}">${outlet.port.AModule.num}</a></td>
+				</tr>
+				<tr>
+					<td>Nom du Switch</td>
+					<td><a href="../switcheses/details?idNetSwitch=${outlet.port.AModule.ASwitch.id}">${outlet.port.AModule.ASwitch.name}</a></td>
+				</tr>
+				<tr>
+					<td>Ip du Switch</td>
+					<td>${outlet.port.AModule.ASwitch.ip}</td>
+				</tr>
+				<tr>
+					<td>Vlan non taggué</td>
+					<td>${outlet.port.vlanUntagged.num} - ${outlet.port.vlanUntagged.name}</td>
+				</tr>
+				<c:forEach items="${outlet.port.vlansTagged}" var="vlanTagged" varStatus="loop">
+				<tr>
+				<td>Vlan non taggué </td>
+				<td>${vlanTagged.num} - ${vlanTagged.name}</td>
+				</tr>
+				<a href="./updateswitchconnection?idNetSwitch=${switche.id}">${switche.name}</a> <br />
+</c:forEach>
+			</table>
+		</c:if>
+
+
+		<h4>Location</h4>
+		<table>
+			<tr>
+				<td>Bandeau</td>
+				<td>${outlet.band.num}</td>
+			</tr>
+			<tr>
+				<td>Repartiteur</td>
+				<td>${outlet.band.dispatcher.name} (batiment
+					${outlet.band.dispatcher.building.name})</td>
+			</tr>
+
+		</table>
+
+		<sec:authorize ifAnyGranted="ROLE_ADMIN">
+			<div id="admin">
+				<input type="button" value="Modifier la connexion au switch"
+					onclick="chooseSwitch(${outlet.id})" />
+				<input type="button" value="Modifier la connexion au bandeau"
+					onclick="chooseBand(${outlet.id},${outlet.band.dispatcher.id},${outlet.band.id})" />
+			</div>
+		</sec:authorize>
+
+		<div id="dialog-form-switches" title="Modifier la connexion au Switch">
+
+
+			<form>
+				<input type="hidden" id="outletInputIdSwitch"
+					name="outletInputIdSwitch" value="${outlet.id}" />					
+					 Switches : <select
+					name="switchesSelect" id="switchesSelect"
+					class="text ui-widget-content ui-corner-all">
+
+					<c:forEach items="${switcheses}" var="switche">
+						<option value="${switche.id}">${switche.name}</option>
+					</c:forEach>
+
+				</select>
+
+			</form>
+
+		</div>
+
+		<div id="dialog-form-band" title="Modifier la connexion au bandeau">
+
+
+			<form>
+				<input type="hidden" id="outletInputId" name="outletInputId"
+					value="${outlet.id}" /> Répartiteur : <select name="dispatcher"
+					id="dispatcherSelect"
+					onChange="getBands(this.options[this.selectedIndex].value,'false')"
+					class="text ui-widget-content ui-corner-all">
+
+					<c:forEach items="${dispatchers}" var="disp">
+						<option value="${disp.id}">${disp.name}</option>
+					</c:forEach>
+
+				</select> <br /> Bandeau:
+				<p id="bandTextNoBand" hidden="true">Le répartiteur n'a pas de
+					bandeau</p>
+				<select name="band" id="bandSelect"
+					class="text ui-widget-content ui-corner-all">
+
+				</select> <br />
+			</form>
+
+		</div>
+
+
+
+
+
+
+	</div>
+
+
+
+</div>
+
+
+
+
+
+

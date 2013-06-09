@@ -39,7 +39,10 @@ public class Outlet {
     private Band band;
     
     public String getCode(){
-    	return this.band.getDispatcher().getName()+"-"+this.band.getNum()+"-"+this.port.getNum();
+    	if (this.port != null)
+    		return this.band.getDispatcher().getName()+"-"+this.band.getNum()+"-"+this.port.getNum();
+    	else
+    		return "aucun code";
     }
 
 	public static List<Outlet> findOutletOfRooms(Long roomsId) {

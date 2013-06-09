@@ -16,4 +16,12 @@
     <definition extends="default" name="outlets/details">
         <put-attribute name="body" value="/WEB-INF/views/outlets/details.jspx"/>
     </definition>
+    <definition extends="default" name="outlets/updateoutletconnection">
+        <put-attribute name="body" value="/WEB-INF/views/outlets/updateoutletconnection.jspx"/>
+    </definition>
+    <definition extends="default" name="outlets/updateoutletconnectionsameswitch">
+        <put-attribute name="body" value="/WEB-INF/views/outlets/updateoutletconnectionsameswitch.jspx"/>
+    </definition>
+    
 </tiles-definitions>
+

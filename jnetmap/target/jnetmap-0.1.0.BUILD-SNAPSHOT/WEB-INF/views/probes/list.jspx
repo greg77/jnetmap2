@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_sio_jnetmap_domain_Probe" items="${probes}" z="xUa+gL3OgBRGyFjOBAFMi+mapdw=">
+        <table:table data="${probes}" id="l_org_sio_jnetmap_domain_Probe" path="/probes" z="xkDucVUk8e0Uq54vrYnTAzBpONQ=">
+            <table:column id="c_org_sio_jnetmap_domain_Probe_mac" property="mac" z="cKz3/uUgwpQPQvqeuQdDtcq9Ovo="/>
+            <table:column id="c_org_sio_jnetmap_domain_Probe_num" property="num" z="MC3YMtG8kFPCAf4exFerC4p5UYo="/>
+        </table:table>
+    </page:list>
+</div>

@@ -268,12 +268,16 @@
 					}
 						
 					
+					var typesY = { "outlet" : "outlets/details?idOutlet=", "building" : "buildings/", "dispatcher": "dispatchers/" , "room" : "rooms/details?idRoom=", "switches" : "switcheses/details?idNetSwitch=", "outlet" : "outlets/details?idOutlet=", "band": "bands/" , "port" : "ports/details?idPort=" , "modules" : "moduleses/details?idModule="};
+					
+					
 					if(rowToDisplay == 'name'){
 						alert('je passe dans name');
 						var data = $.map(json.aaData, function(el, i) {	
 							alert(el.name);
 							var typeMin = selectedTypeOfSearch.toLowerCase();
-							dataArray.push(["<a href=\"../"+typeMin+"/"+el.id+"\">"+el.name+"</a>"]);
+							var paramUrl = typesY[typeMin];
+ 							dataArray.push(["<a href=\"../"+paramUrl+el.id+"\">"+el.name+"</a>"]);
 						});
 					}
 					else if(rowToDisplay == 'num'){
@@ -281,9 +285,11 @@
 						var data = $.map(json.aaData, function(el, i) {	
 							alert(el.num);
 							var typeMin = selectedTypeOfSearch.toLowerCase();
-							dataArray.push(["<a href=\"../"+typeMin+"/"+el.id+"\">"+el.num+"</a>"]);
+							var paramUrl = typesY[typeMin];
+ 							dataArray.push(["<a href=\"../"+paramUrl+el.id+"\">"+el.num+"</a>"]);
 						});
 					}
+					
 					
 					
 					

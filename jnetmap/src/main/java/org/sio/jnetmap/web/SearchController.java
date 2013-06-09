@@ -518,16 +518,7 @@ public class SearchController {
 	
 	//adding
 	
-	
-	
-
-	
-	
-	
-
-	
-
-	
+		
 	@RequestMapping(value = "test")
 	public String test(){
 		return "uc/admin/test";

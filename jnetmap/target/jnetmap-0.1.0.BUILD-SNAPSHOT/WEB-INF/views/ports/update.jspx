@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_org_sio_jnetmap_domain_Port" modelAttribute="port" path="/ports" versionField="Version" z="J3OMBpUaHuy+tGasx30q5F8HOlA=">
+        <field:input field="num" id="c_org_sio_jnetmap_domain_Port_num" required="true" z="IC38VhxF+sBJYoqOz+2H4dBISBw="/>
+        <field:select field="outlet" id="c_org_sio_jnetmap_domain_Port_outlet" itemValue="id" items="${outlets}" path="/outlets" z="jiv607uiqYgt3KLgEdbd+w81XNQ="/>
+        <field:select field="vlanUntagged" id="c_org_sio_jnetmap_domain_Port_vlanUntagged" itemValue="id" items="${vlans}" path="/vlans" z="3/HsZGBzaLzC+1YfK78RH6tA6jk="/>
+        <field:select field="vlansTagged" id="c_org_sio_jnetmap_domain_Port_vlansTagged" itemValue="id" items="${vlans}" multiple="true" path="/vlans" z="MyIWXBLanjaciueIphzZLpaDfWg="/>
+        <field:select field="aModule" id="c_org_sio_jnetmap_domain_Port_aModule" itemValue="id" items="${moduleses}" path="/moduleses" z="XV59Kese4HLE9Fo6D0+wr78IOOg="/>
+    </form:update>
+</div>

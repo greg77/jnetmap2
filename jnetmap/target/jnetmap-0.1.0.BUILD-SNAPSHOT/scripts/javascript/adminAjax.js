@@ -1,0 +1,3 @@
+ function doAjax() {
+      alert('plop');
+    }
